@@ -1,0 +1,8 @@
+language: csharp
+solution: TradingBot.sln
+script: # Modify the commands below to build your repository.
+  - export PROJECT_NAME=TradingBot
+  - export TEST_NAME=TradingBotTests
+  - dotnet restore
+  - dotnet build $PROJECT_NAME
+  - dotnet test $TEST_NAME
