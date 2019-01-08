@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingBot", "TradingBot\Tr
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DataFetcher", "DataFetcher\DataFetcher.pyproj", "{4D9E3817-E4E4-468E-A209-DEEC902AA82A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingBotTests", "TradingBotTests\TradingBotTests.csproj", "{78970796-49F5-44A1-B12E-9453F1BB6A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingBotTests", "TradingBotTests\TradingBotTests.csproj", "{78970796-49F5-44A1-B12E-9453F1BB6A6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingAlgorithm", "TradingAlgorithm\TradingAlgorithm.csproj", "{8F5EC2B2-7F1D-40A5-9A29-5CAAA987135F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{78970796-49F5-44A1-B12E-9453F1BB6A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78970796-49F5-44A1-B12E-9453F1BB6A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78970796-49F5-44A1-B12E-9453F1BB6A6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F5EC2B2-7F1D-40A5-9A29-5CAAA987135F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F5EC2B2-7F1D-40A5-9A29-5CAAA987135F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F5EC2B2-7F1D-40A5-9A29-5CAAA987135F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F5EC2B2-7F1D-40A5-9A29-5CAAA987135F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
