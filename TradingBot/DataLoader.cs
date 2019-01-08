@@ -7,6 +7,8 @@ namespace TradingBot
 {
     internal class DataLoader
     {
+        List<DataPoint> dataPoints;
+
         public DataLoader(string path)
         {
             // Create stopwatch to give estimate of data load time
@@ -16,7 +18,7 @@ namespace TradingBot
             // Load data from file
             string data = LoadData(path);
             // Deserialize data
-            List<DataPoint> dataPoints = DeserializeJson(data);
+            dataPoints = DeserializeJson(data);
 
             // Tell the user how long it took
             watch.Stop();
