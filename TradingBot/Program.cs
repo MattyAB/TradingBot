@@ -6,7 +6,7 @@ namespace TradingBot
     {
         static void Main(string[] args)
         {
-            DataLoader dl = new DataLoader(@"E:\Documents\Code\C#\TradingBot\data.json");
+            Backtester backtest = new Backtester(@"E:\Documents\Code\C#\TradingBot\data.json");
 
             Console.WriteLine("Hello World!");
         }
