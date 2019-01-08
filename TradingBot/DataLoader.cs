@@ -7,7 +7,7 @@ namespace TradingBot
 {
     public class DataLoader
     {
-        List<DataPoint> dataPoints;
+        public List<DataPoint> dataPoints;
 
         public DataLoader(string path)
         {
@@ -32,11 +32,9 @@ namespace TradingBot
             List<string[]> DataRaw = JsonConvert.DeserializeObject<List<string[]>>(data);
 
             List<DataPoint> output = new List<DataPoint>();
-
-            for(int i = 0; i < DataRaw.Count; i++)
-            //foreach(string[] Data in DataRaw)
+            
+            foreach(string[] Data in DataRaw)
             {
-                string[] Data = DataRaw[i];
                 DataPoint Point = new DataPoint();
 
                 DateTime openTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
