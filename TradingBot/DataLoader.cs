@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace TradingBot
 {
-    internal class DataLoader
+    public class DataLoader
     {
         List<DataPoint> dataPoints;
 
