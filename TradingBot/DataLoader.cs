@@ -65,7 +65,7 @@ namespace TradingBot
         }
     }
 
-    class DataPoint
+    public class DataPoint
     {
         public double open;
         public double high;
