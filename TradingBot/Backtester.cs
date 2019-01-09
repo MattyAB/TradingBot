@@ -7,13 +7,14 @@ namespace TradingBot
 {
     class Backtester
     {
-        private Wallet CurrentPortfolio
+        public Wallet _CurrentPortfolio;
+        public Wallet CurrentPortfolio
         {
             // Standard GetSet, but when this is being written to, it is also added to the PortfolioHistory list
-            get { return CurrentPortfolio; }
-            set
+            get { return _CurrentPortfolio; }
+            private set
             {
-                CurrentPortfolio = value;
+                _CurrentPortfolio = value;
                 PortfolioHistory.Add(value);
             }
         }

@@ -10,7 +10,7 @@ namespace TradingBotTests
         public void DataLoaderTest()
         {
             DataLoader dl = new TradingBot.DataLoader(
-                @"../../../../Binance_ETHBTC_30m_1512086400000-1514764800000.json");
+                @"../../../../BacktestData/30mTestData.json");
 
             DataPoint point = dl.GetNextPoint();
             
