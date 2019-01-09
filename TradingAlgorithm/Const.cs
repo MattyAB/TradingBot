@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TradingBot
+namespace TradingAlgorithm
 {
     class Const
     {
