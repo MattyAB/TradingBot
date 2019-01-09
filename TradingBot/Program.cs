@@ -6,7 +6,7 @@ namespace TradingBot
     {
         static void Main(string[] args)
         {
-            Backtester backtest = new Backtester(@"E:\Documents\Code\C#\TradingBot\data.json");
+            Backtester backtest = new Backtester(Const.backtestPath);
 
             Console.WriteLine("Hello World!");
         }
