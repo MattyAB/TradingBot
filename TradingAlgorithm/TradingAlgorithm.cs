@@ -8,5 +8,10 @@ namespace TradingAlgorithm
         {
 
         }
+
+        public void Tick(DataPoint Point)
+        {
+
+        }
     }
 }

@@ -28,7 +28,25 @@ namespace TradingBot
             // Create first portfolio, with $1000 of BTC and $1000 of $
             CurrentPortfolio = new Wallet(1000 / dl.GetFirst().open, 1000);
 
+            // Create TA Object
             TradingAlgorithm.TradingAlgorithm algorithm = new TradingAlgorithm.TradingAlgorithm();
+
+            while(true) // For each tick we have stored
+            {
+                DataPoint Point;
+                try
+                {
+                    // Get the next data point
+                    Point = dl.GetNextPoint();
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    // When it gets to the end of the list
+                    break;
+                }
+
+                algorithm.Tick(Point);
+            }
         }
     }
 }
