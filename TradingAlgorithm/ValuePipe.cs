@@ -70,14 +70,14 @@ namespace TradingAlgorithm
         // Gives a raw direction based on the last 2 points
         public double? Direction()
         {
-            if (valuesArray.Count < MaxValues)
+            if (valuesArray.Count < 2)
             {
                 return null; // Empty string, should be picked up by whatever is calling it.
             }
             else
             {
-                double lastVal = valuesArray[MaxValues - 1];
-                double penultimateVal = valuesArray[MaxValues - 2];
+                double lastVal = valuesArray[valuesArray.Count - 1];
+                double penultimateVal = valuesArray[valuesArray.Count - 2];
                 return lastVal - penultimateVal;
             }
         }

@@ -31,6 +31,9 @@ namespace TradingBotTests
             Assert.Equal(50, MA.Total());
 
             TrendingTest("rising");
+
+            Assert.Equal(10, MA.GetMa());
+            Assert.Equal(10, MA.GetMaNullable().Value);
         }
 
         public void TrendingTest(string expected)

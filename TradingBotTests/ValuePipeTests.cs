@@ -16,10 +16,15 @@ namespace TradingBotTests
         public void ValuePipeTest()
         {
             Assert.Null(VP.Push(5));
+            Assert.Null(VP.Direction());
             Assert.Null(VP.Push(10));
+            DirectionUp();
             Assert.Null(VP.Push(15));
+            DirectionUp();
             Assert.Null(VP.Push(2));
+            DirectionDown();
             Assert.Null(VP.Push(13));
+            DirectionUp();
 
             double actual = VP.Push(4).Value;
 
@@ -40,6 +45,16 @@ namespace TradingBotTests
         public void MinValueTest()
         {
             Assert.Equal(2, VP.MinValue());
+        }
+
+        public void DirectionUp()
+        {
+            Assert.True(VP.Direction() > 0);
+        }
+
+        public void DirectionDown()
+        {
+            Assert.True(VP.Direction() < 0);
         }
     }
 }
