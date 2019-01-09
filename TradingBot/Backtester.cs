@@ -21,7 +21,11 @@ namespace TradingBot
 
         public Backtester(string path)
         {
+            // Load Data
             DataLoader dl = new DataLoader(path);
+
+            // Create first portfolio, with $1000 of BTC and $1000 of $
+            CurrentPortfolio = new Wallet(dl.GetFirst().open * 1000, 1000);
 
             TradingAlgorithm.TradingAlgorithm algorithm = new TradingAlgorithm.TradingAlgorithm();
         }

@@ -70,6 +70,11 @@ namespace TradingBot
             currentPoint++;
             return dataPoints[currentPoint - 1];
         }
+
+        public DataPoint GetFirst()
+        {
+            return dataPoints[0];
+        }
     }
 
     public class DataPoint
