@@ -8,9 +8,12 @@ namespace TradingBot
     public class DataLoader
     {
         public List<DataPoint> dataPoints;
+        private int currentPoint;
 
         public DataLoader(string path)
         {
+            currentPoint = 0;
+
             // Create stopwatch to give estimate of data load time
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -60,6 +63,12 @@ namespace TradingBot
         string LoadData(string path)
         {
             return System.IO.File.ReadAllText(path);
+        }
+
+        public DataPoint GetNextPoint()
+        {
+            currentPoint++;
+            return dataPoints[currentPoint - 1];
         }
     }
 
