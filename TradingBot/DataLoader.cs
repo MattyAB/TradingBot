@@ -7,7 +7,7 @@ namespace TradingBot
 {
     public class DataLoader
     {
-        public List<DataPoint> dataPoints;
+        private List<DataPoint> dataPoints;
         private int currentPoint;
 
         public DataLoader(string path)
