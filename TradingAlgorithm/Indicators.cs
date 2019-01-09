@@ -6,15 +6,15 @@ namespace TradingAlgorithm
 {
     class Indicators
     {
-        private ValuePipe MA1;
-        private ValuePipe MA2;
-        private ValuePipe MA3;
+        private MovingAverage MA1;
+        private MovingAverage MA2;
+        private MovingAverage MA3;
 
         public Indicators()
         {
-            MA1 = new ValuePipe(Const.MA1PipeLength);
-            MA2 = new ValuePipe(Const.MA2PipeLength);
-            MA3 = new ValuePipe(Const.MA3PipeLength);
+            MA1 = new MovingAverage(Const.MA1PipeLength);
+            MA2 = new MovingAverage(Const.MA2PipeLength);
+            MA3 = new MovingAverage(Const.MA3PipeLength);
         }
 
         public DataPoint Tick(DataPoint Point)

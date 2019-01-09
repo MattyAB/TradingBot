@@ -49,6 +49,8 @@ namespace TradingBot
                 algorithm.Tick(Point);
             }
 
+            Directory.CreateDirectory(@"./../../../../Exports");
+
             List<string[]> export = algorithm.Export();
             using (StreamWriter outfile = new StreamWriter(@"./../../../../Exports/" + DateTime.Now.ToFileTimeUtc() + ".csv"))
             {
