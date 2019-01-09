@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using TradingAlgorithm;
 
@@ -46,6 +47,21 @@ namespace TradingBot
                 }
 
                 algorithm.Tick(Point);
+            }
+
+            List<string[]> export = algorithm.Export();
+            using (StreamWriter outfile = new StreamWriter(@"./../../../../Exports/" + DateTime.Now.ToFileTimeUtc() + ".csv"))
+            {
+                for (int x = 0; x < export.Count; x++)
+                {
+                    string content = "";
+                    for (int y = 0; y < export[x].Length; y++)
+                    {
+                        content += export[x][y].ToString() + ",";
+                    }
+                    //trying to write data to csv
+                    outfile.WriteLine(content);
+                }
             }
         }
     }

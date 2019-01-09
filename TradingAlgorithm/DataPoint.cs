@@ -29,5 +29,22 @@ namespace TradingAlgorithm
         public double? MA3;
 
         #endregion
+
+        public string[] Export()
+        {
+            return new string[]
+            {
+                Convert.ToString(open),
+                Convert.ToString(high),
+                Convert.ToString(low),
+                Convert.ToString(close),
+                Convert.ToString(volume),
+                Convert.ToString(tradeCount),
+                Convert.ToString(openTime.ToFileTimeUtc()),
+                Convert.ToString(MA1),
+                Convert.ToString(MA2),
+                Convert.ToString(MA3)
+            };
+        }
     }
 }

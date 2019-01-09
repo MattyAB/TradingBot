@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TradingAlgorithm
 {
-    class Const
+    public class Const
     {
         public const string backtestPath = @"E:\Documents\Code\C#\TradingBot\BacktestData\dataBTCUSDT.json"; // Path for backtest data
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using TradingAlgorithm;
 
 namespace TradingBot
 {
