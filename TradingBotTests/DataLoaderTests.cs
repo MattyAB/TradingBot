@@ -28,6 +28,8 @@ namespace TradingBotTests
                 2017, 12, 1, 0, 0, 0), point.openTime);
             DateTime Expected = new DateTime(2017, 12, 1, 0, 29, 59);
             Assert.Equal(Expected.AddMilliseconds(999), point.closeTime);
+
+            Assert.Equal(1487, dl.DataCount());
         }
     }
 }
