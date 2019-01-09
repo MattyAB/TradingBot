@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TradingBot
 {
-    class Wallet
+    public class Wallet
     {
         private double BTCBalance;
         private double USDTBalance;
@@ -13,6 +13,16 @@ namespace TradingBot
         {
             BTCBalance = RawBTC;
             USDTBalance = RawUSDT;
+        }
+
+        public double GetUSDTBalance()
+        {
+            return USDTBalance;
+        }
+
+        public double GetBTCBalance()
+        {
+            return BTCBalance;
         }
     }
 }
