@@ -20,6 +20,7 @@ namespace TradingAlgorithm
             MA.jsName = "drawMA";
             MA.htmlName = "ma_graph";
             MA.columnNames = new string[] {"price", "MA1", "MA2", "MA3"};
+            plotterSetup.Add(MA);
             plot = new Plotter(plotterSetup);
 
             MA1 = new MovingAverage(Const.MA1PipeLength);
@@ -32,7 +33,25 @@ namespace TradingAlgorithm
             Point.MA1 = MA1.Push(Point.close);
             Point.MA2 = MA2.Push(Point.close);
             Point.MA3 = MA3.Push(Point.close);
+
+            Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
+            plotValues.Add("ma_graph", 
+                new []{Point.close,
+                    Math.Round(DoubleConvert(Point.MA1), 3),
+                    Math.Round(DoubleConvert(Point.MA2), 3),
+                    Math.Round(DoubleConvert(Point.MA3), 3) });
+
+            plot.PushValues(plotValues);
+
             return Point;
+        }
+
+        public double DoubleConvert(double? value)
+        {
+            if (value == null)
+                return 0;
+            else
+                return value.Value;
         }
     }
 }
