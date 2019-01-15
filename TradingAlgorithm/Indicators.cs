@@ -6,12 +6,17 @@ namespace TradingAlgorithm
 {
     class Indicators
     {
+        private Plotter plot;
+
         private MovingAverage MA1;
         private MovingAverage MA2;
         private MovingAverage MA3;
 
         public Indicators()
         {
+            List<PlotterValues> plotterSetup = new List<PlotterValues>();
+            plot = new Plotter(plotterSetup);
+
             MA1 = new MovingAverage(Const.MA1PipeLength);
             MA2 = new MovingAverage(Const.MA2PipeLength);
             MA3 = new MovingAverage(Const.MA3PipeLength);
