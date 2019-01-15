@@ -15,6 +15,11 @@ namespace TradingAlgorithm
         public Indicators()
         {
             List<PlotterValues> plotterSetup = new List<PlotterValues>();
+            PlotterValues MA = new PlotterValues();
+            MA.title = "Moving Averages";
+            MA.jsName = "drawMA";
+            MA.htmlName = "ma_graph";
+            MA.columnNames = new string[] {"price", "MA1", "MA2", "MA3"};
             plot = new Plotter(plotterSetup);
 
             MA1 = new MovingAverage(Const.MA1PipeLength);

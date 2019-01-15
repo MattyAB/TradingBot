@@ -8,7 +8,12 @@ namespace TradingAlgorithm
     {
         public Plotter(List<PlotterValues> setup)
         {
+            List<Plot> plots = new List<Plot>();
 
+            foreach(PlotterValues plotVals in setup)
+            {
+                Plot plot = new Plot(plotVals);
+            }
         }
     }
 
