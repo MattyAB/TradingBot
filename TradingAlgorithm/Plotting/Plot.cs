@@ -29,5 +29,10 @@ namespace TradingAlgorithm
             else
                 this.values.Add(values);
         }
+
+        public List<double[]> GetValues()
+        {
+            return values;
+        }
     }
 }

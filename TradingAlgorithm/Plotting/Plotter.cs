@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RazorEngine;
 
 namespace TradingAlgorithm
 {
@@ -33,6 +34,11 @@ namespace TradingAlgorithm
                     }
                 }
             }
+        }
+
+        public void BuildSite()
+        {
+
         }
     }
 
