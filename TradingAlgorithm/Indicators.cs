@@ -19,7 +19,7 @@ namespace TradingAlgorithm
             MA.title = "Moving Averages";
             MA.jsName = "drawMA";
             MA.htmlName = "ma_graph";
-            MA.columnNames = new string[] {"price", "MA1", "MA2", "MA3"};
+            MA.columnNames = new string[] {"Timestamp", "Price", "MA1", "MA2", "MA3"};
             plotterSetup.Add(MA);
             plot = new Plotter(plotterSetup);
 
@@ -36,7 +36,8 @@ namespace TradingAlgorithm
 
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("ma_graph", 
-                new []{Point.close,
+                new []{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    Point.close,
                     Math.Round(DoubleConvert(Point.MA1), 3),
                     Math.Round(DoubleConvert(Point.MA2), 3),
                     Math.Round(DoubleConvert(Point.MA3), 3) });
