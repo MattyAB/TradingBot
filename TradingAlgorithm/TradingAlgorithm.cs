@@ -24,5 +24,10 @@ namespace TradingAlgorithm
         {
             return exports;
         }
+
+        public void FinishUp()
+        {
+            indicators.FinishPlots();
+        }
     }
 }

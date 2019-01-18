@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
-using RazorEngine;
 
 namespace TradingAlgorithm
 {
@@ -38,7 +38,10 @@ namespace TradingAlgorithm
 
         public void BuildSite()
         {
-
+            foreach (Plot plot in plots)
+            {
+                
+            }
         }
     }
 

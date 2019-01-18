@@ -49,6 +49,8 @@ namespace TradingBot
                 algorithm.Tick(Point);
             }
 
+            algorithm.FinishUp();
+
             Directory.CreateDirectory(@"./../../../../Exports");
 
             List<string[]> export = algorithm.Export();

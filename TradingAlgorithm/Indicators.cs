@@ -54,5 +54,10 @@ namespace TradingAlgorithm
             else
                 return value.Value;
         }
+
+        public void FinishPlots()
+        {
+            plot.BuildSite();
+        }
     }
 }

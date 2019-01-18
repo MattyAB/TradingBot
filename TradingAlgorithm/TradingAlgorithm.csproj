@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="RazorEngine" Version="3.10.0" />
+    <PackageReference Include="RazorTemplates" Version="1.2.1" />
+  </ItemGroup>
+
 </Project>
