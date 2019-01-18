@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace TradingAlgorithm
@@ -40,7 +41,7 @@ namespace TradingAlgorithm
         {
             foreach (Plot plot in plots)
             {
-                
+                string json = plot.BuildJS();
             }
         }
     }
