@@ -58,12 +58,12 @@ namespace TradingAlgorithm
         public string BuildData()
         {
             List<string> dataPoints = new List<string>();
+            
+            dataPoints.Add("['" + String.Join("','", columnNames) + "']");
 
-            dataPoints.Add("[" + String.Join(",", columnNames) + "]");
-
-            foreach (double[] value in values)
+            for(int i = 2000; i < 3000; i++)
             {
-                dataPoints.Add("[" + String.Join(",", value) + "]");
+                dataPoints.Add("[" + String.Join(",", values[i]) + "]");
             }
 
             return "[" + String.Join(",", dataPoints) + "]";
