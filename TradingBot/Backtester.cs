@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using TradingAlgorithm;
@@ -31,7 +32,9 @@ namespace TradingBot
 
             // Create TA Object
             int startTime = Convert.ToInt32((dl.GetFirst().openTime - new DateTime(1970, 1, 1)).TotalSeconds);
-            TradingAlgorithm.TradingAlgorithm algorithm = new TradingAlgorithm.TradingAlgorithm(startTime);
+            List<PositionOpener.PositionDecision> decisions = new List<PositionOpener.PositionDecision>();
+            decisions.Add(RSIDecision);
+            TradingAlgorithm.TradingAlgorithm algorithm = new TradingAlgorithm.TradingAlgorithm(startTime, decisions);
 
             while(true) // For each tick we have stored
             {
@@ -68,6 +71,15 @@ namespace TradingBot
                     outfile.WriteLine(content);
                 }
             }
+        }
+
+        public int RSIDecision(DataPoint Point)
+        {
+            if (Point.RSI < 30)
+                return 1;
+            if (Point.RSI > 70)
+                return -1;
+            return 0;
         }
     }
 }
