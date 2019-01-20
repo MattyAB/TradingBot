@@ -62,7 +62,7 @@ namespace TradingAlgorithm
             // Write the html for each chart
             foreach (Plot plot in plots)
             {
-                html += "<div id=" + plot.htmlName + " style=\"width: 900px; height: 500px\"></div>";
+                html += "<div id=" + plot.htmlName + " style=\"width: 1800px; height: 500px\"></div>";
             }
 
             // Finish html

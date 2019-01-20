@@ -30,7 +30,8 @@ namespace TradingBot
             CurrentPortfolio = new Wallet(1000 / dl.GetFirst().open, 1000);
 
             // Create TA Object
-            TradingAlgorithm.TradingAlgorithm algorithm = new TradingAlgorithm.TradingAlgorithm();
+            int startTime = Convert.ToInt32((dl.GetFirst().openTime - new DateTime(1970, 1, 1)).TotalSeconds);
+            TradingAlgorithm.TradingAlgorithm algorithm = new TradingAlgorithm.TradingAlgorithm(startTime);
 
             while(true) // For each tick we have stored
             {

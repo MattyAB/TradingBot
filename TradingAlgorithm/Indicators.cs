@@ -18,7 +18,7 @@ namespace TradingAlgorithm
         private ValuePipe RSIPipe;
         private double[] prevGainLoss = new double[] {0, 0};
 
-        public Indicators()
+        public Indicators(int startTimeStamp, bool interval1m)
         {
             List<PlotterValues> plotterSetup = new List<PlotterValues>();
             PlotterValues MA = new PlotterValues();
@@ -34,6 +34,18 @@ namespace TradingAlgorithm
             RSI.columnNames = new string[] { "Timestamp", "RSI" };
             plotterSetup.Add(RSI);
             plot = new Plotter(plotterSetup);
+
+            if (interval1m)
+            {
+                DateTime temp = new DateTime(1970, 1, 1);
+                Const.plotStart = temp.AddSeconds(startTimeStamp + (60 * Const.plotStartPoint));
+                temp = new DateTime(1970, 1, 1);
+                Const.plotFinish = temp.AddSeconds(startTimeStamp + (60 * Const.plotFinishPoint));
+            }
+            else
+            {
+                throw new Exception("Not 1m interval - not programmed to deal with this...");
+            }
 
             MA1 = new MovingAverage(Const.MA1PipeLength);
             MA2 = new MovingAverage(Const.MA2PipeLength);
@@ -51,6 +63,14 @@ namespace TradingAlgorithm
             RSIPipe.Push(Point.close);
             Point.RSI = calculateRSI(Point);
 
+            if (Const.plotStart < Point.openTime && Const.plotFinish > Point.openTime)
+                PushPlotValues(Point);
+
+            return Point;
+        }
+
+        public void PushPlotValues(DataPoint Point)
+        {
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("ma_graph",
                 new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
@@ -63,8 +83,6 @@ namespace TradingAlgorithm
                     Point.RSI });
 
             plot.PushValues(plotValues);
-
-            return Point;
         }
 
         public int calculateRSI(DataPoint Point)

@@ -46,7 +46,7 @@ namespace TradingAlgorithm
             // And add data in
             js += data + ");    ";
             // Options
-            js += "var options = { title: '" + title + "', curveType: 'function', legend: { position: 'bottom' } };";
+            js += "var options = { title: '" + title + "', legend: { position: 'bottom' } };";
             // Line to push chart to html
             js += "var chart = new google.visualization.LineChart(document.getElementById('" + htmlName + "'));";
             // Finish up
@@ -61,9 +61,9 @@ namespace TradingAlgorithm
             
             dataPoints.Add("['" + String.Join("','", columnNames) + "']");
 
-            for(int i = 2000; i < 3000; i++)
+            foreach(double[] value in values)
             {
-                dataPoints.Add("[" + String.Join(",", values[i]) + "]");
+                dataPoints.Add("[" + String.Join(",", value) + "]");
             }
 
             return "[" + String.Join(",", dataPoints) + "]";

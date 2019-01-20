@@ -8,9 +8,9 @@ namespace TradingAlgorithm
         private Indicators indicators;
         private List<string[]> exports;
 
-        public TradingAlgorithm()
+        public TradingAlgorithm(int startTimeStamp)
         {
-            indicators = new Indicators();
+            indicators = new Indicators(startTimeStamp, true);
             exports = new List<string[]>();
         }
 
