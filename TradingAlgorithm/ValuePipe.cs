@@ -152,5 +152,21 @@ namespace TradingAlgorithm
 
             return differences;
         }
+
+        public double[] AveGainLoss()
+        {
+            double sumGain = 0;
+            double sumLoss = 0;
+
+            foreach (double d in Differences())
+            {
+                if (d >= 0)
+                    sumGain += d;
+                else
+                    sumLoss += d;
+            }
+
+            return new double[] {sumGain / valuesArray.Count, sumLoss / valuesArray.Count};
+        }
     }
 }
