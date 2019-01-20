@@ -57,7 +57,14 @@ namespace TradingAlgorithm
 
         public void FinishPlots()
         {
-            plot.BuildSite();
+            try
+            {
+                plot.BuildSite();
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine("Not enough data points in " + e.StackTrace + " to draw plot.");
+            }
         }
     }
 }
