@@ -14,6 +14,9 @@ namespace TradingAlgorithm
         public static readonly int MA1PipeLength = 50; // Moving Average 1 pipe length
         public static readonly int MA2PipeLength = 100; // Moving Average 2 pipe length
         public static readonly int MA3PipeLength = 500; // Moving Average 3 pipe length
+
+        public static readonly int RSIPeriod = 14;
+
         #endregion
     }
 }

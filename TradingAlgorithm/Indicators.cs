@@ -12,6 +12,8 @@ namespace TradingAlgorithm
         private MovingAverage MA2;
         private MovingAverage MA3;
 
+        private ValuePipe RSIPipe;
+
         public Indicators()
         {
             List<PlotterValues> plotterSetup = new List<PlotterValues>();
@@ -26,6 +28,8 @@ namespace TradingAlgorithm
             MA1 = new MovingAverage(Const.MA1PipeLength);
             MA2 = new MovingAverage(Const.MA2PipeLength);
             MA3 = new MovingAverage(Const.MA3PipeLength);
+
+            RSIPipe = new ValuePipe(Const.RSIPeriod);
         }
 
         public DataPoint Tick(DataPoint Point)
@@ -33,6 +37,8 @@ namespace TradingAlgorithm
             Point.MA1 = MA1.Push(Point.close);
             Point.MA2 = MA2.Push(Point.close);
             Point.MA3 = MA3.Push(Point.close);
+
+            RSIPipe.Push(Point.close);
 
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("ma_graph", 
@@ -45,6 +51,11 @@ namespace TradingAlgorithm
             plot.PushValues(plotValues);
 
             return Point;
+        }
+
+        public int calculateRSI(DataPoint Point)
+        {
+            throw new NotImplementedException();
         }
 
         public double DoubleConvert(double? value)

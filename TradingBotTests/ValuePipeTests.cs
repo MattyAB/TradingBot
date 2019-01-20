@@ -35,6 +35,7 @@ namespace TradingBotTests
 
             MaxValueTest();
             MinValueTest();
+            Differences();
         }
 
         public void MaxValueTest()
@@ -55,6 +56,11 @@ namespace TradingBotTests
         public void DirectionDown()
         {
             Assert.True(VP.Direction() < 0);
+        }
+
+        public void Differences()
+        {
+            Assert.Equal(new double[] {5, -13, 11, -9}, VP.Differences());
         }
     }
 }

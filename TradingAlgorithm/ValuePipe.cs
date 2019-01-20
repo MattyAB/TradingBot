@@ -140,5 +140,17 @@ namespace TradingAlgorithm
                 return m;
             }
         }
+
+        public double[] Differences()
+        {
+            double[] differences = new double[valuesArray.Count - 1];
+
+            for (int i = 0; i < valuesArray.Count - 1; i++)
+            {
+                differences[i] = valuesArray[i + 1] - valuesArray[i];
+            }
+
+            return differences;
+        }
     }
 }
