@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace TradingAlgorithm
@@ -8,11 +9,14 @@ namespace TradingAlgorithm
     {
         private Plotter plot;
 
+        // MA
         private MovingAverage MA1;
         private MovingAverage MA2;
         private MovingAverage MA3;
 
+        // RSI
         private ValuePipe RSIPipe;
+        private double[] prevGainLoss = new double[] {0, 0};
 
         public Indicators()
         {
@@ -21,8 +25,14 @@ namespace TradingAlgorithm
             MA.title = "Moving Averages";
             MA.jsName = "drawMA";
             MA.htmlName = "ma_graph";
-            MA.columnNames = new string[] {"Timestamp", "Price", "MA1", "MA2", "MA3"};
+            MA.columnNames = new string[] { "Timestamp", "Price", "MA1", "MA2", "MA3" };
             plotterSetup.Add(MA);
+            PlotterValues RSI = new PlotterValues();
+            RSI.title = "Relative Strength Index";
+            RSI.jsName = "drawRSI";
+            RSI.htmlName = "rsi_graph";
+            RSI.columnNames = new string[] { "Timestamp", "RSI" };
+            plotterSetup.Add(RSI);
             plot = new Plotter(plotterSetup);
 
             MA1 = new MovingAverage(Const.MA1PipeLength);
@@ -39,14 +49,18 @@ namespace TradingAlgorithm
             Point.MA3 = MA3.Push(Point.close);
 
             RSIPipe.Push(Point.close);
+            Point.RSI = calculateRSI(Point);
 
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
-            plotValues.Add("ma_graph", 
-                new []{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+            plotValues.Add("ma_graph",
+                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
                     Point.close,
                     Math.Round(DoubleConvert(Point.MA1), 3),
                     Math.Round(DoubleConvert(Point.MA2), 3),
                     Math.Round(DoubleConvert(Point.MA3), 3) });
+            plotValues.Add("rsi_graph",
+                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    Point.RSI });
 
             plot.PushValues(plotValues);
 
@@ -55,7 +69,24 @@ namespace TradingAlgorithm
 
         public int calculateRSI(DataPoint Point)
         {
-            throw new NotImplementedException();
+            double RSI;
+
+            // Not going to be able to calculate RSI
+            if (RSIPipe.valuesArray.Count < Const.RSIPeriod)
+                return 0;
+
+            double[] gainLoss = RSIPipe.AveGainLoss();
+            if (gainLoss[1] == 0)
+                gainLoss[1] = 1;
+
+                double smoothRS = (prevGainLoss[0] * (Const.RSIPeriod - 1) + gainLoss[0]) /
+                                  (prevGainLoss[1] * (Const.RSIPeriod - 1) + gainLoss[1]);
+                RSI = 100 - (100 / (1 + smoothRS));
+                prevGainLoss = gainLoss;
+
+            if (double.IsInfinity(RSI) | Math.Abs(RSI) > 2147483647)
+                return 0;
+            return Convert.ToInt32(RSI);
         }
 
         public double DoubleConvert(double? value)

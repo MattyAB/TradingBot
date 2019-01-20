@@ -155,6 +155,7 @@ namespace TradingAlgorithm
 
         public double[] AveGainLoss()
         {
+
             double sumGain = 0;
             double sumLoss = 0;
 
@@ -166,7 +167,7 @@ namespace TradingAlgorithm
                     sumLoss += d;
             }
 
-            return new double[] {sumGain / valuesArray.Count, sumLoss / valuesArray.Count};
+            return new double[] {sumGain / valuesArray.Count, -sumLoss / valuesArray.Count };
         }
     }
 }

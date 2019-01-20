@@ -24,9 +24,13 @@ namespace TradingAlgorithm
 
         #region Indicators
 
+        // MA
         public double? MA1;
         public double? MA2;
         public double? MA3;
+
+        // RSI
+        public double RSI;
 
         #endregion
 
