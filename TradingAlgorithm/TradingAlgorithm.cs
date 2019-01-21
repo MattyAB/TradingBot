@@ -23,8 +23,15 @@ namespace TradingAlgorithm
             int choice = opener.Tick(Point);
             if (choice != 0)
             {
-                Console.WriteLine(choice);
+                bool longOrShort = (choice > 0);
+                OpenPosition(longOrShort, Math.Abs(choice));
             }
+        }
+
+        private Positon OpenPosition(bool longOrShort, int opener)
+        {
+            // Will also include TP and SL prices
+            return new Positon(longOrShort, opener);
         }
 
         public List<string[]> Export()
