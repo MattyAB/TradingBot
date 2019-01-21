@@ -28,10 +28,10 @@ namespace TradingAlgorithm
             }
         }
 
-        private Positon OpenPosition(bool longOrShort, int opener)
+        private Position OpenPosition(bool longOrShort, int opener)
         {
             // Will also include TP and SL prices
-            return new Positon(longOrShort, opener);
+            return new Position(longOrShort, opener);
         }
 
         public List<string[]> Export()
