@@ -9,9 +9,11 @@ namespace TradingAlgorithm
     class Plotter
     {
         List<Plot> plots;
+        private string fileName;
 
-        public Plotter(List<PlotterValues> setup)
+        public Plotter(List<PlotterValues> setup, string fileName)
         {
+            this.fileName = fileName;
             plots = new List<Plot>();
 
             foreach(PlotterValues plotVals in setup)
@@ -69,7 +71,7 @@ namespace TradingAlgorithm
             html += "</body> </html>";
 
             // Write to file
-            File.WriteAllText("E:\\Documents\\Code\\C#\\TradingBot\\Exports\\export.html", html);
+            File.WriteAllText("E:\\Documents\\Code\\C#\\TradingBot\\Exports\\" + fileName + ".html", html);
         }
     }
 

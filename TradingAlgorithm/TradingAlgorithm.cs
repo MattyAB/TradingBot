@@ -50,6 +50,7 @@ namespace TradingAlgorithm
                         returnSignal--;
                     else
                         returnSignal++;
+                    positions[i].FinishPlot();
                     positions.RemoveAt(i);
                 }
             }

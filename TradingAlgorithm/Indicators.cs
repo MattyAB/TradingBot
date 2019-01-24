@@ -33,7 +33,7 @@ namespace TradingAlgorithm
             RSI.htmlName = "rsi_graph";
             RSI.columnNames = new string[] { "Timestamp", "RSI" };
             plotterSetup.Add(RSI);
-            plot = new Plotter(plotterSetup);
+            plot = new Plotter(plotterSetup, "IndicatorExport");
 
             if (interval1m)
             {
