@@ -9,11 +9,26 @@ namespace TradingAlgorithm
         // TODO: Maybe chage to double eventually to show confidence ?
         public delegate int PositionDecision(DataPoint Point);
 
+        private int nextPositionID;
+        public int NextPositionID
+        {
+            get
+            {
+                nextPositionID++;
+                return nextPositionID - 1;
+            }
+            private set
+            {
+                nextPositionID = value;
+            }
+        }
+
         private List<PositionDecision> decisions;
 
         public PositionOpener(List<PositionDecision> decisions)
         {
             this.decisions = decisions;
+            NextPositionID = 0;
         }
 
         public int Tick(DataPoint Point)

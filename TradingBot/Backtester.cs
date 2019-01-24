@@ -48,7 +48,27 @@ namespace TradingBot
                     break;
                 }
 
-                algorithm.Tick(Point);
+                Wallet interimWallet = currentPortfolio;
+
+                int tickSignal = algorithm.Tick(Point);
+                // Buy BTC
+                if (tickSignal > 0)
+                {
+                    double TradeBTC = Const.TradeValue / Point.close;
+                    interimWallet.USDTBalance -= Const.TradeValue;
+                    interimWallet.BTCBalance += TradeBTC;
+                }
+
+                // Sell BTC
+                if (tickSignal < 0)
+                {
+                    double TradeBTC = Const.TradeValue / Point.close;
+                    interimWallet.BTCBalance -= TradeBTC;
+                    interimWallet.USDTBalance += Const.TradeValue;
+                }
+
+                // Finish up by committing the current wallet to our history.
+                currentPortfolio = interimWallet;
             }
 
             algorithm.FinishUp();

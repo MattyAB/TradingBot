@@ -6,8 +6,8 @@ namespace TradingBot
 {
     public class Wallet
     {
-        private double BTCBalance;
-        private double USDTBalance;
+        public double BTCBalance;
+        public double USDTBalance;
 
         public Wallet(double RawBTC, double RawUSDT) // Needs to also take a list of current positions
         {
@@ -15,14 +15,9 @@ namespace TradingBot
             USDTBalance = RawUSDT;
         }
 
-        public double GetUSDTBalance()
+        public double GetTotalBalance(double Price)
         {
-            return USDTBalance;
-        }
-
-        public double GetBTCBalance()
-        {
-            return BTCBalance;
+            return USDTBalance + Price * BTCBalance;
         }
     }
 }
