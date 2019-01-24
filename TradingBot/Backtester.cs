@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Text;
 using TradingAlgorithm;
 
 namespace TradingBot
 {
     public class Backtester
     {
-        public Wallet _CurrentPortfolio;
+        public Wallet currentPortfolio;
         public Wallet CurrentPortfolio
         {
             // Standard GetSet, but when this is being written to, it is also added to the PortfolioHistory list
-            get { return _CurrentPortfolio; }
+            get { return currentPortfolio; }
             private set
             {
-                _CurrentPortfolio = value;
+                currentPortfolio = value;
                 PortfolioHistory.Add(value);
             }
         }
