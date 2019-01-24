@@ -24,6 +24,7 @@ namespace TradingAlgorithm
         }
 
         private List<PositionDecision> decisions;
+        public DateTime mostRecentPosition = DateTime.MinValue;
 
         public PositionOpener(List<PositionDecision> decisions)
         {
@@ -39,6 +40,15 @@ namespace TradingAlgorithm
             for (int i = 0; i < decisions.Count; i++)
             {
                 int currentChoice = decisions[i](Point);
+                
+                // Make sure it's been long enough since the last position to open another.
+                if (currentChoice != 0)
+                {
+                    if (Point.openTime - mostRecentPosition < TimeSpan.FromMinutes(Const.RequiredPositionRestMins))
+                        return 0;
+                    mostRecentPosition = Point.openTime;
+                }
+                    
                 // Returns the delegate number instead of just -1 or 1
                 // So that the Plot of the position can see which delegate was used
                 if (currentChoice > 0)

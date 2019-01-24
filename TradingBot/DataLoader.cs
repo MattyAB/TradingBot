@@ -69,7 +69,10 @@ namespace TradingBot
         public DataPoint GetNextPoint()
         {
             currentPoint++;
-            return dataPoints[currentPoint - 1];
+            if (currentPoint < Const.Points)
+                return dataPoints[currentPoint - 1];
+            else
+                return null;
         }
 
         public DataPoint GetFirst()
@@ -80,6 +83,11 @@ namespace TradingBot
         public int DataCount()
         {
             return dataPoints.Count;
+        }
+
+        public DataPoint getPointAt(int i)
+        {
+            return dataPoints[i];
         }
     }
 }

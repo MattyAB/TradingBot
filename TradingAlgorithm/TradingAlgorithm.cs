@@ -6,14 +6,12 @@ namespace TradingAlgorithm
     public class TradingAlgorithm
     {
         private Indicators indicators;
-        private List<string[]> exports;
         private PositionOpener opener;
         private List<Position> positions;
 
         public TradingAlgorithm(int startTimeStamp, List<PositionOpener.PositionDecision> decisions)
         {
             indicators = new Indicators(startTimeStamp, true);
-            exports = new List<string[]>();
             opener = new PositionOpener(decisions);
             positions = new List<Position>();
         }
@@ -24,7 +22,6 @@ namespace TradingAlgorithm
             int returnSignal = 0;
 
             Point = indicators.Tick(Point);
-            exports.Add(Point.Export());
             int choice = opener.Tick(Point);
             if (choice != 0)
             {
@@ -62,11 +59,6 @@ namespace TradingAlgorithm
         {
             // Will also include TP and SL prices
             return new Position(longOrShort, opener, Point, this.opener.NextPositionID);
-        }
-
-        public List<string[]> Export()
-        {
-            return exports;
         }
 
         public void FinishUp()

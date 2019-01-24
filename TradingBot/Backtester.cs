@@ -25,8 +25,8 @@ namespace TradingBot
             // Load Data
             DataLoader dl = new DataLoader(path);
 
-            // Create first portfolio, with $1000 of BTC and $1000 of $
-            CurrentPortfolio = new Wallet(1000 / dl.GetFirst().open, 1000);
+            // Create first portfolio, with $100000 of BTC and $100000 of $
+            CurrentPortfolio = new Wallet(100000 / dl.GetFirst().open, 100000);
 
             // Create TA Object
             int startTime = Convert.ToInt32((dl.GetFirst().openTime - new DateTime(1970, 1, 1)).TotalSeconds);
@@ -37,16 +37,10 @@ namespace TradingBot
             while(true) // For each tick we have stored
             {
                 DataPoint Point;
-                try
-                {
-                    // Get the next data point
-                    Point = dl.GetNextPoint();
-                }
-                catch (ArgumentOutOfRangeException e)
-                {
-                    // When it gets to the end of the list
+                // Get the next data point
+                Point = dl.GetNextPoint();
+                if (Point == null)
                     break;
-                }
 
                 Wallet interimWallet = currentPortfolio;
 
@@ -73,22 +67,7 @@ namespace TradingBot
 
             algorithm.FinishUp();
 
-            Directory.CreateDirectory(@"./../../../../Exports");
-
-            List<string[]> export = algorithm.Export();
-            using (StreamWriter outfile = new StreamWriter(@"./../../../../Exports/" + DateTime.Now.ToFileTimeUtc() + ".csv"))
-            {
-                for (int x = 0; x < export.Count; x++)
-                {
-                    string content = "";
-                    for (int y = 0; y < export[x].Length; y++)
-                    {
-                        content += export[x][y].ToString() + ",";
-                    }
-                    //trying to write data to csv
-                    outfile.WriteLine(content);
-                }
-            }
+            currentPortfolio.GetTotalBalance(dl.getPointAt(Const.Points).close);
         }
 
         public int RSIDecision(DataPoint Point)
