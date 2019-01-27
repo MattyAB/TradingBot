@@ -20,8 +20,11 @@ namespace TradingBot
         }
         List<Wallet> PortfolioHistory = new List<Wallet>();
 
-        public Backtester(string path)
+        public Backtester(string path, int start, int end)
         {
+            Const.plotStartPoint = start;
+            Const.plotFinishPoint = end;
+
             // Load Data
             DataLoader dl = new DataLoader(path);
 

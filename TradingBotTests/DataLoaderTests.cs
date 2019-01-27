@@ -10,6 +10,8 @@ namespace TradingBotTests
         [Fact]
         public void DataLoaderTest()
         {
+            Const.Points = 1000;
+
             DataLoader dl = new TradingBot.DataLoader(
                 @"../../../../BacktestData/30mTestData.json");
 
