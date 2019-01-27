@@ -19,14 +19,13 @@ namespace TradingBot
             }
         }
         List<Wallet> PortfolioHistory = new List<Wallet>();
+        TradingAlgorithm.TradingAlgorithm algorithm;
+        private DataLoader dl;
 
-        public Backtester(string path, int start, int end)
+        public Backtester(string path)
         {
-            Const.plotStartPoint = start;
-            Const.plotFinishPoint = end;
-
             // Load Data
-            DataLoader dl = new DataLoader(path);
+            dl = new DataLoader(path);
 
             // Create first portfolio, with $100000 of BTC and $100000 of $
             CurrentPortfolio = new Wallet(100000 / dl.GetFirst().open, 100000);
@@ -35,9 +34,15 @@ namespace TradingBot
             int startTime = Convert.ToInt32((dl.GetFirst().openTime - new DateTime(1970, 1, 1)).TotalSeconds);
             List<PositionOpener.PositionDecision> decisions = new List<PositionOpener.PositionDecision>();
             decisions.Add(RSIDecision);
-            TradingAlgorithm.TradingAlgorithm algorithm = new TradingAlgorithm.TradingAlgorithm(startTime, decisions);
+            algorithm = new TradingAlgorithm.TradingAlgorithm(startTime, decisions);
+        }
 
-            while(true) // For each tick we have stored
+        public void Backtest(int Pstart, int Pend)
+        {
+            Const.plotStartPoint = Pstart;
+            Const.plotFinishPoint = Pend;
+
+            while (true) // For each tick we have stored
             {
                 DataPoint Point;
                 // Get the next data point

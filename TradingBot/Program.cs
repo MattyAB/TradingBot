@@ -7,7 +7,8 @@ namespace TradingBot
     {
         static void Main(string[] args)
         {
-            Backtester backtest = new Backtester(Const.backtestPath, 1000, 1500);
+            Backtester backtest = new Backtester(Const.backtestPath);
+            backtest.Backtest(1000, 1500);
 
             Console.WriteLine("Hello World!");
 
