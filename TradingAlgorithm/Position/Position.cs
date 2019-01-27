@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TradingAlgorithm
 {
-    class Position
+    public class Position
     {
         private int openerUsed;
         private DataPoint OpeningPoint;
@@ -100,7 +100,7 @@ namespace TradingAlgorithm
             posPlot.PushValues(plotValues);
         }
 
-        public Plotter SetupPlot()
+        Plotter SetupPlot()
         {
             List<PlotterValues> plotterSetup = new List<PlotterValues>();
             PlotterValues Price = new PlotterValues();

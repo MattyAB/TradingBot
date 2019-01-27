@@ -16,10 +16,10 @@ namespace TradingAlgorithm
             positions = new List<Position>();
         }
 
-        public int Tick(DataPoint Point)
+        public List<PositionSignal> Tick(DataPoint Point)
         {
             // signal to be returned. +1 is buy, -1 is sell.
-            int returnSignal = 0;
+            List<PositionSignal> returns = new List<PositionSignal>();
 
             Point = indicators.Tick(Point);
             int choice = opener.Tick(Point);
@@ -27,38 +27,37 @@ namespace TradingAlgorithm
             {
                 // If choice bigger than 0 this is true, else false.
                 bool longOrShort = (choice > 0);
-                positions.Add(OpenPosition(longOrShort, Math.Abs(choice), Point));
-                if (longOrShort)
-                    returnSignal++;
-                else
-                    returnSignal--;
+                returns.Add(new PositionSignal
+                    (longOrShort, Math.Abs(choice), Point, opener.NextPositionID));
             }
-
-            // Prepare a list of position IDs to end - unused at the moment
-            List<int> EndIDs = new List<int>();
+            
             // Now tick all positions
             for(int i = 0; i < positions.Count; i++)
             {
                 bool signal = positions[i].Tick(Point);
                 if (signal)
                 {
-                    EndIDs.Add(positions[i].id);
-                    if (positions[i].longOrShort)
-                        returnSignal--;
-                    else
-                        returnSignal++;
+                    returns.Add(new PositionSignal(positions[i]));
                     positions[i].FinishPlot();
                     positions.RemoveAt(i);
                 }
             }
 
-            return returnSignal;
+            return returns;
         }
 
-        private Position OpenPosition(bool longOrShort, int opener, DataPoint Point)
+        public void AddPosition(Position p)
         {
-            // Will also include TP and SL prices
-            return new Position(longOrShort, opener, Point, this.opener.NextPositionID);
+            positions.Add(p);
+        }
+
+        public void RemovePosition(int id)
+        {
+            for (int i = 0; i < positions.Count; i++)
+            {
+                if(positions[i].id == id)
+                    positions.RemoveAt(i);
+            }
         }
 
         public void FinishUp()

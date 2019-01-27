@@ -52,21 +52,50 @@ namespace TradingBot
 
                 Wallet interimWallet = CurrentPortfolio;
 
-                int tickSignal = algorithm.Tick(Point);
-                // Buy BTC
-                if (tickSignal > 0)
-                {
-                    double TradeBTC = Const.TradeValue / Point.close;
-                    interimWallet.USDTBalance -= Const.TradeValue;
-                    interimWallet.BTCBalance += TradeBTC;
-                }
+                List<PositionSignal> signals = algorithm.Tick(Point);
 
-                // Sell BTC
-                if (tickSignal < 0)
+                foreach (PositionSignal signal in signals)
                 {
-                    double TradeBTC = Const.TradeValue / Point.close;
-                    interimWallet.BTCBalance -= TradeBTC;
-                    interimWallet.USDTBalance += Const.TradeValue;
+                    if (signal.add)
+                    {
+                        // If it is a position creation signal
+                        if (signal.longOrShort)
+                        {
+                            // Long creation - BUY
+                            double TradeBTC = Const.TradeValue / Point.close;
+                            interimWallet.USDTBalance -= Const.TradeValue;
+                            interimWallet.BTCBalance += TradeBTC;
+                        }
+                        else
+                        {
+                            // Short creation - SELL
+                            double TradeBTC = Const.TradeValue / Point.close;
+                            interimWallet.BTCBalance -= TradeBTC;
+                            interimWallet.USDTBalance += Const.TradeValue;
+                        }
+
+                        algorithm.AddPosition(signal.pos);
+                    }
+                    else
+                    {
+                        // Position removal signal
+                        if (signal.longOrShort)
+                        {
+                            // Long removal - SELL
+                            double TradeBTC = Const.TradeValue / Point.close;
+                            interimWallet.BTCBalance -= TradeBTC;
+                            interimWallet.USDTBalance += Const.TradeValue;
+                        }
+                        else
+                        {
+                            // Short removal - BUY
+                            double TradeBTC = Const.TradeValue / Point.close;
+                            interimWallet.USDTBalance -= Const.TradeValue;
+                            interimWallet.BTCBalance += TradeBTC;
+                        }
+
+                        algorithm.RemovePosition(signal.id);
+                    }
                 }
 
                 // Finish up by committing the current wallet to our history.
@@ -75,7 +104,7 @@ namespace TradingBot
 
             algorithm.FinishUp();
 
-            currentPortfolio.GetTotalBalance(dl.getPointAt(Const.Points).close);
+            Console.WriteLine(currentPortfolio.GetTotalBalance(dl.getPointAt(Const.Points).close));
         }
 
         public int RSIDecision(DataPoint Point)
