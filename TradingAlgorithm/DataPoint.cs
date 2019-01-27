@@ -34,6 +34,7 @@ namespace TradingAlgorithm
 
         #endregion
 
+        // Currently unused but I am keeping it here in case (might be useful)
         public string[] Export()
         {
             return new string[]

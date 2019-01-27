@@ -7,7 +7,7 @@ namespace TradingBot
 {
     public class Backtester
     {
-        public Wallet currentPortfolio;
+        private Wallet currentPortfolio;
         public Wallet CurrentPortfolio
         {
             // Standard GetSet, but when this is being written to, it is also added to the PortfolioHistory list
@@ -50,7 +50,7 @@ namespace TradingBot
                 if (Point == null)
                     break;
 
-                Wallet interimWallet = currentPortfolio;
+                Wallet interimWallet = CurrentPortfolio;
 
                 int tickSignal = algorithm.Tick(Point);
                 // Buy BTC
