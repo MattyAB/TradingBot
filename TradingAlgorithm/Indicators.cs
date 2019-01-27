@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TradingAlgorithm
 {
@@ -64,12 +65,12 @@ namespace TradingAlgorithm
             Point.RSI = calculateRSI(Point);
 
             if (Const.plotStart < Point.openTime && Const.plotFinish > Point.openTime)
-                PushPlotValues(Point);
+                Task.Run(() => PushPlotValues(Point));
 
             return Point;
         }
 
-        public void PushPlotValues(DataPoint Point)
+        public async Task PushPlotValues(DataPoint Point)
         {
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("ma_graph",
@@ -82,7 +83,7 @@ namespace TradingAlgorithm
                 new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
                     Point.RSI });
 
-            plot.PushValues(plotValues);
+            await plot.PushValues(plotValues);
         }
 
         public int calculateRSI(DataPoint Point)
@@ -119,7 +120,7 @@ namespace TradingAlgorithm
         {
             try
             {
-                plot.BuildSite();
+                Task.Run(() => plot.BuildSite());
             }
             catch (ArgumentOutOfRangeException e)
             {

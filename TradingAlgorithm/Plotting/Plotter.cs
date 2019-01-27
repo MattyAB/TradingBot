@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TradingAlgorithm
 {
@@ -22,7 +23,7 @@ namespace TradingAlgorithm
             }
         }
 
-        public void PushValues(Dictionary<string, double[]> values)
+        public async Task PushValues(Dictionary<string, double[]> values)
         {
             // For every set of values we have
             foreach (KeyValuePair<string, double[]> value in values)
@@ -39,7 +40,7 @@ namespace TradingAlgorithm
             }
         }
 
-        public void BuildSite()
+        public async Task BuildSite()
         {
             // Initialise html
             string html =

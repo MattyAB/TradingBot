@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TradingAlgorithm
 {
@@ -43,13 +44,13 @@ namespace TradingAlgorithm
             }
 
             posPlot = SetupPlot();
-            PushPlotValues(OpeningPoint);
+            Task.Run(() => PushPlotValues(OpeningPoint));
         }
 
         // True when signalling to end position
         public bool Tick(DataPoint Point)
         {
-            PushPlotValues(Point);
+            Task.Run(() => PushPlotValues(Point));
 
             if (longOrShort)
             {
@@ -86,7 +87,7 @@ namespace TradingAlgorithm
             return false;
         }
 
-        public void PushPlotValues(DataPoint Point)
+        public async Task PushPlotValues(DataPoint Point)
         {
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("price_graph",
@@ -97,7 +98,7 @@ namespace TradingAlgorithm
                     startPrice
                 });
 
-            posPlot.PushValues(plotValues);
+            await posPlot.PushValues(plotValues);
         }
 
         Plotter SetupPlot()
@@ -114,7 +115,7 @@ namespace TradingAlgorithm
 
         public void FinishPlot()
         {
-            posPlot.BuildSite();
+            Task.Run(() => posPlot.BuildSite());
         }
     }
 }
