@@ -104,6 +104,7 @@ namespace TradingBot
 
             algorithm.FinishUp();
 
+            Console.WriteLine(currentPortfolio.GetTotalBalance(dl.GetFirst().close));
             Console.WriteLine(currentPortfolio.GetTotalBalance(dl.getPointAt(Const.Points).close));
         }
 

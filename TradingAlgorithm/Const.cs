@@ -7,7 +7,7 @@ namespace TradingAlgorithm
     public class Const
     {
         public const string backtestPath = @"E:\Documents\Code\C#\TradingBot\BacktestData\dataBTCUSDT.json"; // Path for backtest data
-        public static int Points = 10000; // How many data points to test on
+        public static int Points = 700000; // How many data points to test on
 
         public const double TradeValue = 100; // Trades made are $100
         public const double Fee = 0.001; // Binance maker and taker fees are identical

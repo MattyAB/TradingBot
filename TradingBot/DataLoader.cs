@@ -69,6 +69,8 @@ namespace TradingBot
         public DataPoint GetNextPoint()
         {
             currentPoint++;
+            if(currentPoint % 10000 == 0)
+                Console.WriteLine(currentPoint);
             if (currentPoint < Const.Points)
                 return dataPoints[currentPoint - 1];
             else
