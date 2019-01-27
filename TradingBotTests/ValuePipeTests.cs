@@ -16,26 +16,48 @@ namespace TradingBotTests
         public void ValuePipeTest()
         {
             Assert.Null(VP.Push(5));
+            Assert.True(!VP.PassedZero());
             Assert.Null(VP.Direction());
+            Assert.Null(VP.TrendSlope());
+            TrendingEmpty();
+
             Assert.Null(VP.Push(10));
+            Assert.True(!VP.PassedZero());
             DirectionUp();
+            TrendingEmpty();
+
             Assert.Null(VP.Push(15));
+            Assert.True(!VP.PassedZero());
             DirectionUp();
+            TrendingEmpty();
+
             Assert.Null(VP.Push(2));
+            Assert.True(!VP.PassedZero());
             DirectionDown();
+            TrendingEmpty();
+
             Assert.Null(VP.Push(13));
+            Assert.True(!VP.PassedZero());
             DirectionUp();
+            TrendingUp();
 
             double actual = VP.Push(4).Value;
-
-            for (int i = 0; i < 5; i++)
-            {
-                Assert.Equal(5, actual);
-            }
+            TrendingDown();
+            Assert.Equal(5, actual);
 
             MaxValueTest();
             MinValueTest();
             Differences();
+
+            VP.Push(-2);
+            Assert.True(VP.PassedZero());
+            TrendingUp();
+
+            VP.Push(3);
+            Assert.True(VP.PassedZero());
+            TrendingUp();
+
+            Assert.Equal(4, VP.TrendSlope());
         }
 
         public void MaxValueTest()
@@ -46,6 +68,21 @@ namespace TradingBotTests
         public void MinValueTest()
         {
             Assert.Equal(2, VP.MinValue());
+        }
+
+        public void TrendingEmpty()
+        {
+            Assert.Equal("", VP.Trending());
+        }
+
+        public void TrendingUp()
+        {
+            Assert.Equal("rising", VP.Trending());
+        }
+
+        public void TrendingDown()
+        {
+            Assert.Equal("falling", VP.Trending());
         }
 
         public void DirectionUp()
