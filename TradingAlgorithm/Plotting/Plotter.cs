@@ -81,7 +81,7 @@ namespace TradingAlgorithm
 
         public void addText(string text)
         {
-            textLog += text + "\n";
+            textLog += text + "<br/>";
         }
     }
 
