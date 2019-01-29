@@ -11,6 +11,7 @@ namespace TradingAlgorithm
     {
         List<Plot> plots;
         private string fileName;
+        private string textLog;
 
         public Plotter(List<PlotterValues> setup, string fileName)
         {
@@ -62,6 +63,9 @@ namespace TradingAlgorithm
             // Between JS and body
             html += "</script> </head> <body>";
 
+            // Add text log
+            html += "<p>" + textLog + "</p>";
+
             // Write the html for each chart
             foreach (Plot plot in plots)
             {
@@ -72,7 +76,12 @@ namespace TradingAlgorithm
             html += "</body> </html>";
 
             // Write to file
-            File.WriteAllText("E:\\Documents\\Code\\C#\\TradingBot\\Exports\\" + fileName + ".html", html);
+            File.WriteAllText(Const.exportPath + fileName + ".html", html);
+        }
+
+        public void addText(string text)
+        {
+            textLog += text + "\n";
         }
     }
 

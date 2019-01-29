@@ -45,6 +45,8 @@ namespace TradingAlgorithm
 
             posPlot = SetupPlot();
             Task.Run(() => PushPlotValues(OpeningPoint));
+
+            posPlot.addText("Opened position with opener " + opener + " at price " + OpeningPoint.close);
         }
 
         // True when signalling to end position
@@ -59,11 +61,13 @@ namespace TradingAlgorithm
                 // Take profit?
                 if (Point.close > takeProfit)
                 {
+                    posPlot.addText("Closed position at price " + Point.close);
                     return true;
                 }
                 // Stop loss?
                 if (Point.close < stopLoss)
                 {
+                    posPlot.addText("Closed position at price " + Point.close);
                     return true;
                 }
             }
@@ -74,11 +78,13 @@ namespace TradingAlgorithm
                 // Take profit?
                 if (Point.close < takeProfit)
                 {
+                    posPlot.addText("Closed position at price " + Point.close);
                     return true;
                 }
                 // Stop loss?
                 if (Point.close > stopLoss)
                 {
+                    posPlot.addText("Closed position at price " + Point.close);
                     return true;
                 }
             }
