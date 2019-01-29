@@ -1,10 +1,9 @@
 # TradingBot
 
 ## Todo
-- Portfolio tracked
-- Trading algorithm ticks
-- Trading algorithm calculates indicators
-- Backtester can be passed positions
-- Trading algorithm has routines to decide wether to create positions
-- Positions are exported to a html file
+- More indicators
+- Improve decision algorithm
+- Text logging
+- Pulling TP and SL
+- Pos logs before and after position is open
 - Genetic algorithm for creating position deciding criteria (GA writes the algorithm)
