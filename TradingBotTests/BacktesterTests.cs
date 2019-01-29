@@ -25,7 +25,7 @@ namespace TradingBotTests
             }
             catch (DirectoryNotFoundException e)
             {
-                Assert.Equal(@"Could not find a part of the path '/opt/atlassian/pipelines/agent/build/Exports'", e.Message);
+                Assert.Equal(@"Could not find a part of the path '/opt/atlassian/pipelines/agent/build/Exports'.", e.Message);
             }
         }
     }
