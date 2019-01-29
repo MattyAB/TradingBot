@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace TradingAlgorithm
 {
@@ -11,6 +12,11 @@ namespace TradingAlgorithm
 
         public TradingAlgorithm(int startTimeStamp, List<PositionOpener.PositionDecision> decisions)
         {
+            // Clear exports directory
+            DirectoryInfo di = new DirectoryInfo(Const.exportPath);
+            foreach (FileInfo file in di.GetFiles())
+                file.Delete();
+
             indicators = new Indicators(startTimeStamp, true);
             opener = new PositionOpener(decisions);
             positions = new List<Position>();
