@@ -61,13 +61,13 @@ namespace TradingAlgorithm
                 // Take profit?
                 if (Point.close > takeProfit)
                 {
-                    posPlot = Log.logText("Closed position at price " + Point.close, posPlot);
+                    posPlot = Log.WriteClosePosition(startPrice, Point, longOrShort, posPlot);
                     return true;
                 }
                 // Stop loss?
                 if (Point.close < stopLoss)
                 {
-                    posPlot = Log.logText("Closed position at price " + Point.close, posPlot);
+                    posPlot = Log.WriteClosePosition(startPrice, Point, longOrShort, posPlot);
                     return true;
                 }
             }
@@ -78,13 +78,13 @@ namespace TradingAlgorithm
                 // Take profit?
                 if (Point.close < takeProfit)
                 {
-                    posPlot = Log.logText("Closed position at price " + Point.close, posPlot);
+                    posPlot = Log.WriteClosePosition(startPrice, Point, longOrShort, posPlot);
                     return true;
                 }
                 // Stop loss?
                 if (Point.close > stopLoss)
                 {
-                    posPlot = Log.logText("Closed position at price " + Point.close, posPlot);
+                    posPlot = Log.WriteClosePosition(startPrice, Point, longOrShort, posPlot);
                     return true;
                 }
             }
