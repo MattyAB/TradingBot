@@ -19,5 +19,10 @@ namespace TradingBot
         {
             return USDTBalance + Price * BTCBalance;
         }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

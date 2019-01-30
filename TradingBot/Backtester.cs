@@ -56,9 +56,9 @@ namespace TradingBot
                 if (Point == null)
                     break;
 
-                Wallet interimWallet = CurrentPortfolio;
+                Wallet interimWallet = (Wallet)CurrentPortfolio.Clone();
 
-                List<PositionSignal> signals = algorithm.Tick(Point, CurrentPortfolio.GetTotalBalance(Point.close));
+                List<PositionSignal> signals = algorithm.Tick(Point, CurrentPortfolio.GetTotalBalance(dl.GetFirst().close));
 
                 foreach (PositionSignal signal in signals)
                 {
@@ -114,7 +114,7 @@ namespace TradingBot
             algorithm.FinishUp();
 
             Console.WriteLine(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close));
-            Console.WriteLine(currentPortfolio.GetTotalBalance(dl.getPointAt(Const.Points).close));
+            Console.WriteLine(PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close));
         }
 
         public int RSIDecision(DataPoint Point)

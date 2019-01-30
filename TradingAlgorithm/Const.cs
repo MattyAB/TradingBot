@@ -8,14 +8,14 @@ namespace TradingAlgorithm
     {
         public const string backtestPath = @"E:\Documents\Code\C#\TradingBot\BacktestData\dataBTCUSDT.json"; // Path for backtest data
         public const string exportPath = @"../../../../Exports/"; // Export path
-        public static int Points = 10000; // How many data points to test on
+        public static int Points = 700000; // How many data points to test on
 
         public const double TradeValue = 100; // Trades made are $100
         public const double Fee = 0.001; // Binance maker and taker fees are identical
         public const int PortfolioStartValue = 10000; // Start value portfolio is this much USD plus this much in BTC
 
         public static int plotStartPoint = 1000;
-        public static int plotFinishPoint = 1500;
+        public static int plotFinishPoint = 10000;
         public static DateTime plotStart;
         public static DateTime plotFinish;
 
