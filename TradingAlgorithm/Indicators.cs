@@ -28,6 +28,12 @@ namespace TradingAlgorithm
             MA.htmlName = "ma_graph";
             MA.columnNames = new string[] { "Timestamp", "Price", "MA1", "MA2", "MA3" };
             plotterSetup.Add(MA);
+            PlotterValues Portfolio = new PlotterValues();
+            Portfolio.title = "Portfolio Value";
+            Portfolio.jsName = "drawPort";
+            Portfolio.htmlName = "port_graph";
+            Portfolio.columnNames = new string[] { "Timestamp", "Value" };
+            plotterSetup.Add(Portfolio);
             PlotterValues RSI = new PlotterValues();
             RSI.title = "Relative Strength Index";
             RSI.jsName = "drawRSI";
@@ -55,7 +61,7 @@ namespace TradingAlgorithm
             RSIPipe = new ValuePipe(Const.RSIPeriod);
         }
 
-        public DataPoint Tick(DataPoint Point)
+        public DataPoint Tick(DataPoint Point, double portfolioValue)
         {
             Point.MA1 = MA1.Push(Point.close);
             Point.MA2 = MA2.Push(Point.close);
@@ -65,12 +71,12 @@ namespace TradingAlgorithm
             Point.RSI = calculateRSI(Point);
 
             if (Const.plotStart < Point.openTime && Const.plotFinish > Point.openTime)
-                Task.Run(() => PushPlotValues(Point));
+                Task.Run(() => PushPlotValues(Point, portfolioValue));
 
             return Point;
         }
 
-        public async Task PushPlotValues(DataPoint Point)
+        public async Task PushPlotValues(DataPoint Point, double portfolioValue)
         {
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("ma_graph",
@@ -79,6 +85,9 @@ namespace TradingAlgorithm
                     Math.Round(DoubleConvert(Point.MA1), 3),
                     Math.Round(DoubleConvert(Point.MA2), 3),
                     Math.Round(DoubleConvert(Point.MA3), 3) });
+            plotValues.Add("port_graph",
+                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    portfolioValue });
             plotValues.Add("rsi_graph",
                 new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
                     Point.RSI });

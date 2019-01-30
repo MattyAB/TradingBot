@@ -22,12 +22,12 @@ namespace TradingAlgorithm
             positions = new List<Position>();
         }
 
-        public List<PositionSignal> Tick(DataPoint Point)
+        public List<PositionSignal> Tick(DataPoint Point, double portfolioValue)
         {
             // signal to be returned. +1 is buy, -1 is sell.
             List<PositionSignal> returns = new List<PositionSignal>();
 
-            Point = indicators.Tick(Point);
+            Point = indicators.Tick(Point, portfolioValue);
             int choice = opener.Tick(Point);
             if (choice != 0)
             {

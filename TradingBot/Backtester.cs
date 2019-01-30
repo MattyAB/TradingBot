@@ -52,7 +52,7 @@ namespace TradingBot
 
                 Wallet interimWallet = CurrentPortfolio;
 
-                List<PositionSignal> signals = algorithm.Tick(Point);
+                List<PositionSignal> signals = algorithm.Tick(Point, CurrentPortfolio.GetTotalBalance(Point.close));
 
                 foreach (PositionSignal signal in signals)
                 {
