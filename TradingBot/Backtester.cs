@@ -48,6 +48,9 @@ namespace TradingBot
             Const.plotStartPoint = Pstart;
             Const.plotFinishPoint = Pend;
 
+            int longPos = 0;
+            int shortPos = 0;
+
             while (true) // For each tick we have stored
             {
                 DataPoint Point;
@@ -71,6 +74,8 @@ namespace TradingBot
                             double TradeBTC = Const.TradeValue / Point.close;
                             interimWallet.USDTBalance -= Const.TradeValue;
                             interimWallet.BTCBalance += TradeBTC;
+
+                            longPos++;
                         }
                         else
                         {
@@ -78,6 +83,8 @@ namespace TradingBot
                             double TradeBTC = Const.TradeValue / Point.close;
                             interimWallet.BTCBalance -= TradeBTC;
                             interimWallet.USDTBalance += Const.TradeValue;
+
+                            shortPos++;
                         }
 
                         algorithm.AddPosition(signal.pos);
@@ -115,7 +122,8 @@ namespace TradingBot
 
             TradingAlgorithm.Log.FinishUp(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close),
-                PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.getPointAt(Const.Points).close));
+                PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.getPointAt(Const.Points).close),
+                longPos, shortPos);
         }
 
         public int RSIDecision(DataPoint Point)
