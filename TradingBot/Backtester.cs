@@ -28,7 +28,13 @@ namespace TradingBot
             dl = new DataLoader(path);
 
             // Create first portfolio, with $1000 of BTC and $1000 of $
-            CurrentPortfolio = new Wallet(Const.PortfolioStartValue / dl.GetFirst().open, Const.PortfolioStartValue);
+            CurrentPortfolio = new Wallet(Const.PortfolioStartValue / dl.GetFirst().close, Const.PortfolioStartValue);
+            Console.WriteLine(CurrentPortfolio.GetTotalBalance(dl.GetFirst().close));
+            CurrentPortfolio = currentPortfolio; // Set this to make a second instance in PortfolioHistory
+                                                 // - bit of a clunky solution but necessary because on line 
+                                                 //    Wallet interimWallet = CurrentPortfolio;
+                                                 // This passes a reference and so when interimWallet the PortfolioHistory[0] is edited
+                                                 // Which means we don't get full coverage of our portfolio history...
 
             // Create TA Object
             int startTime = Convert.ToInt32((dl.GetFirst().openTime - new DateTime(1970, 1, 1)).TotalSeconds);
@@ -102,12 +108,12 @@ namespace TradingBot
                     throw new Exception("Portfolio cannot be lower than 0");
 
                 // Finish up by committing the current wallet to our history.
-                currentPortfolio = interimWallet;
+                CurrentPortfolio = interimWallet;
             }
 
             algorithm.FinishUp();
 
-            Console.WriteLine(currentPortfolio.GetTotalBalance(dl.GetFirst().close));
+            Console.WriteLine(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close));
             Console.WriteLine(currentPortfolio.GetTotalBalance(dl.getPointAt(Const.Points).close));
         }
 
