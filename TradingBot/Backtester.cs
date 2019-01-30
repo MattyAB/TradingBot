@@ -113,8 +113,9 @@ namespace TradingBot
 
             algorithm.FinishUp();
 
-            Console.WriteLine(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close));
-            Console.WriteLine(PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close));
+            TradingAlgorithm.Log.FinishUp(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close),
+                PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close),
+                PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.getPointAt(Const.Points).close));
         }
 
         public int RSIDecision(DataPoint Point)

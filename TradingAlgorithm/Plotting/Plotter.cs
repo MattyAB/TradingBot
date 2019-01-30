@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TradingAlgorithm
 {
-    class Plotter
+    public class Plotter
     {
         List<Plot> plots;
         private string fileName;
@@ -85,7 +85,7 @@ namespace TradingAlgorithm
         }
     }
 
-    struct PlotterValues
+    public struct PlotterValues
     {
         public string title;
         public string jsName;
