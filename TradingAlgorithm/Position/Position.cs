@@ -30,17 +30,17 @@ namespace TradingAlgorithm
             {
                 // Long
                 // Aim to make 5%
-                takeProfit = OpeningPoint.close * 1.05;
+                takeProfit = OpeningPoint.close * 1 + Const.TPPercentage;
                 // Cut losses at 2%
-                stopLoss = OpeningPoint.close * 0.98;
+                stopLoss = OpeningPoint.close * 1 - Const.SLPercentage;
             }
             else
             {
                 // Short
                 // Aim to make 5%
-                takeProfit = OpeningPoint.close * 0.95;
+                takeProfit = OpeningPoint.close * 1 - Const.TPPercentage;
                 // Cut losses at 2%
-                stopLoss = OpeningPoint.close * 1.02;
+                stopLoss = OpeningPoint.close * 1 + Const.SLPercentage;
             }
 
             posPlot = SetupPlot();

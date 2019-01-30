@@ -27,8 +27,8 @@ namespace TradingBot
             // Load Data
             dl = new DataLoader(path);
 
-            // Create first portfolio, with $100000 of BTC and $100000 of $
-            CurrentPortfolio = new Wallet(100000 / dl.GetFirst().open, 100000);
+            // Create first portfolio, with $1000 of BTC and $1000 of $
+            CurrentPortfolio = new Wallet(Const.PortfolioStartValue / dl.GetFirst().open, Const.PortfolioStartValue);
 
             // Create TA Object
             int startTime = Convert.ToInt32((dl.GetFirst().openTime - new DateTime(1970, 1, 1)).TotalSeconds);
@@ -97,6 +97,9 @@ namespace TradingBot
                         algorithm.RemovePosition(signal.id);
                     }
                 }
+
+                if(CurrentPortfolio.GetTotalBalance(Point.close) < 0)
+                    throw new Exception("Portfolio cannot be lower than 0");
 
                 // Finish up by committing the current wallet to our history.
                 currentPortfolio = interimWallet;
