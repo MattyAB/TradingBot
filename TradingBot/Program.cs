@@ -10,8 +10,6 @@ namespace TradingBot
             Backtester backtest = new Backtester(Const.backtestPath);
             backtest.Backtest(1000, 1500);
 
-            Console.WriteLine("Hello World!");
-
             Console.ReadLine();
         }
     }
