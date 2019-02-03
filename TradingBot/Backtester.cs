@@ -65,6 +65,20 @@ namespace TradingBot
 
                 foreach (PositionSignal signal in signals)
                 {
+                    // Check we have enough capital to carry out the change
+                    if (signal.longOrShort)
+                    {
+                        // Long
+                        if (interimWallet.USDTBalance < Const.TradeValue)
+                            break;
+                    }
+                    else
+                    {
+                        // Short
+                        if (interimWallet.BTCBalance < Const.TradeValue / Point.close)
+                            break;
+                    }
+
                     if (signal.add)
                     {
                         // If it is a position creation signal
