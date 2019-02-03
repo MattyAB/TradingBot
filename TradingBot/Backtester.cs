@@ -73,7 +73,7 @@ namespace TradingBot
                             // Long creation - BUY
                             double TradeBTC = Const.TradeValue / Point.close;
                             interimWallet.USDTBalance -= Const.TradeValue;
-                            interimWallet.BTCBalance += TradeBTC;
+                            interimWallet.BTCBalance += TradeBTC * (1 - 0.001);
 
                             longPos++;
                         }
@@ -82,7 +82,7 @@ namespace TradingBot
                             // Short creation - SELL
                             double TradeBTC = Const.TradeValue / Point.close;
                             interimWallet.BTCBalance -= TradeBTC;
-                            interimWallet.USDTBalance += Const.TradeValue;
+                            interimWallet.USDTBalance += Const.TradeValue * (1 - 0.001);
 
                             shortPos++;
                         }
