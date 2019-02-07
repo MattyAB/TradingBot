@@ -65,68 +65,68 @@ namespace TradingBot
 
                 foreach (PositionSignal signal in signals)
                 {
+                    bool buyOrSell; // True if buy, False if sell
+
+                    if(signal.longOrShort)
+                        if (signal.add) // long Buy
+                            buyOrSell = true;
+                        else // long Sell
+                            buyOrSell = false;
+                    else
+                        if (signal.add) // short Buy
+                            buyOrSell = false;
+                        else // short Sell
+                            buyOrSell = true;
+
                     // Check we have enough capital to carry out the change
-                    if (signal.longOrShort)
+                    if (buyOrSell)
                     {
-                        // Long
+                        // Buy
                         if (interimWallet.USDTBalance < Const.TradeValue)
                             break;
                     }
                     else
                     {
-                        // Short
+                        // Sell
                         if (interimWallet.BTCBalance < Const.TradeValue / Point.close)
                             break;
                     }
 
+                    // Carry out the change in our portfolio
+                    if (buyOrSell)
+                    {
+                        // BUY signal
+
+                        double TradeBTC = Const.TradeValue / Point.close;
+                        interimWallet.USDTBalance -= Const.TradeValue;
+                        interimWallet.BTCBalance += TradeBTC * (1 - 0.001);
+                    }
+                    else
+                    {
+                        // SELL signal
+
+                        double TradeBTC = Const.TradeValue / Point.close;
+                        interimWallet.BTCBalance -= TradeBTC;
+                        interimWallet.USDTBalance += Const.TradeValue * (1 - 0.001);
+                    }
+
+                    // And update the stats.
                     if (signal.add)
                     {
                         // If it is a position creation signal
                         if (signal.longOrShort)
-                        {
-                            // Long creation - BUY
-                            double TradeBTC = Const.TradeValue / Point.close;
-                            interimWallet.USDTBalance -= Const.TradeValue;
-                            interimWallet.BTCBalance += TradeBTC * (1 - 0.001);
-
                             longPos++;
-                        }
                         else
-                        {
-                            // Short creation - SELL
-                            double TradeBTC = Const.TradeValue / Point.close;
-                            interimWallet.BTCBalance -= TradeBTC;
-                            interimWallet.USDTBalance += Const.TradeValue * (1 - 0.001);
-
                             shortPos++;
-                        }
 
                         algorithm.AddPosition(signal.pos);
                     }
                     else
-                    {
-                        // Position removal signal
-                        if (signal.longOrShort)
-                        {
-                            // Long removal - SELL
-                            double TradeBTC = Const.TradeValue / Point.close;
-                            interimWallet.BTCBalance -= TradeBTC;
-                            interimWallet.USDTBalance += Const.TradeValue;
-                        }
-                        else
-                        {
-                            // Short removal - BUY
-                            double TradeBTC = Const.TradeValue / Point.close;
-                            interimWallet.USDTBalance -= Const.TradeValue;
-                            interimWallet.BTCBalance += TradeBTC;
-                        }
-
                         algorithm.RemovePosition(signal.id);
-                    }
                 }
 
-                if(CurrentPortfolio.GetTotalBalance(Point.close) < 0)
-                    throw new Exception("Portfolio cannot be lower than 0");
+                if (CurrentPortfolio.USDTBalance < 0 | CurrentPortfolio.BTCBalance < 0)
+                    Console.WriteLine("One of the portfolio balances went below 0...");
 
                 // Finish up by committing the current wallet to our history.
                 CurrentPortfolio = interimWallet;
