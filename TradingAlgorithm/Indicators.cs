@@ -9,6 +9,7 @@ namespace TradingAlgorithm
     class Indicators
     {
         private Plotter plot;
+        public List<DataPoint> points = new List<DataPoint>();
 
         // MA
         private MovingAverage MA1;
@@ -72,6 +73,8 @@ namespace TradingAlgorithm
 
             if (Const.plotStart < Point.openTime && Const.plotFinish > Point.openTime)
                 Task.Run(() => PushPlotValues(Point, portfolioValue));
+
+            points.Add(Point);
 
             return Point;
         }

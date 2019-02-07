@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace TradingAlgorithm
 {
@@ -9,6 +11,8 @@ namespace TradingAlgorithm
         private Indicators indicators;
         private PositionOpener opener;
         private List<Position> positions;
+        private List<int> longPosCount = new List<int>();
+        private List<int> shortPosCount = new List<int>();
 
         public TradingAlgorithm(int startTimeStamp, List<PositionOpener.PositionDecision> decisions)
         {
@@ -49,6 +53,19 @@ namespace TradingAlgorithm
                 }
             }
 
+            int longs = 0;
+            int shorts = 0;
+            foreach (Position p in positions)
+            {
+                if (p.longOrShort)
+                    longs++;
+                else
+                    shorts++;
+            }
+
+            longPosCount.Add(longs);
+            shortPosCount.Add(shorts);
+
             return returns;
         }
 
@@ -66,9 +83,24 @@ namespace TradingAlgorithm
             }
         }
 
-        public void FinishUp()
+        public AlgorithmData FinishUp()
         {
+            // Indicator Plots
             indicators.FinishPlots();
+
+            // Data creation for final plot.
+            AlgorithmData data = new AlgorithmData();
+            data.points = indicators.points;
+            data.longPos = longPosCount.Select<int, double>(i => i).ToList(); // Convert List<int> to List<double>
+            data.shortPos = shortPosCount.Select<int, double>(i => i).ToList(); // Convert List<int> to List<double>
+            return data;
         }
+    }
+
+    public struct AlgorithmData
+    {
+        public List<DataPoint> points;
+        public List<double> longPos;
+        public List<double> shortPos;
     }
 }

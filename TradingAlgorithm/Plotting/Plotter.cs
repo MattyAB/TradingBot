@@ -79,6 +79,44 @@ namespace TradingAlgorithm
             File.WriteAllText(Const.exportPath + fileName + ".html", html);
         }
 
+        public void BuildSite(bool t)
+        {
+            // Initialise html
+            string html =
+                "  <html> <head> <script type = \"text/javascript\" src = \"https://www.gstatic.com/charts/loader.js\"></script>" +
+                "<script type = \"text/javascript\"> google.charts.load('current', { 'packages':['corechart'] });";
+
+            // Call the js
+            foreach (Plot plot in plots)
+            {
+                html += "google.charts.setOnLoadCallback(" + plot.jsName + ");";
+            }
+
+            // Write the js
+            foreach (Plot plot in plots)
+            {
+                html += plot.BuildJS();
+            }
+
+            // Between JS and body
+            html += "</script> </head> <body>";
+
+            // Add text log
+            html += "<p>" + textLog + "</p>";
+
+            // Write the html for each chart
+            foreach (Plot plot in plots)
+            {
+                html += "<div id=" + plot.htmlName + " style=\"width: 1800px; height: 500px\"></div>";
+            }
+
+            // Finish html
+            html += "</body> </html>";
+
+            // Write to file
+            File.WriteAllText(Const.exportPath + fileName + ".html", html);
+        }
+
         public void addText(string text)
         {
             textLog += text + "<br/>";
