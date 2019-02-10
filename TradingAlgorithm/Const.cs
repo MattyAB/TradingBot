@@ -12,7 +12,7 @@ namespace TradingAlgorithm
 
         public const double TradeValue = 100; // Trades made are $100
         public const double Fee = 0.001; // Binance maker and taker fees are identical
-        public const int PortfolioStartValue = 10000; // Start value portfolio is this much USD plus this much in BTC
+        public const int PortfolioStartValue = 1000; // Start value portfolio is this much USD plus this much in BTC
 
         public static int plotStartPoint = 1000;
         public static int plotFinishPoint = 10000;
@@ -22,8 +22,8 @@ namespace TradingAlgorithm
         #region Position
 
         public const int RequiredPositionRestMins = 30; // Minimum minutes between position opening
-        public const double TPPercentage = 0.05; // Fractional start value for take profit
-        public const double SLPercentage = 0.02; // Fractional start value for stop loss
+        public const double TPPercentage = 0.02; // Fractional start value for take profit
+        public const double SLPercentage = 0.1; // Fractional start value for stop loss
 
         #endregion
 

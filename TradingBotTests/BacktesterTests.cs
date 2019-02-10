@@ -18,8 +18,8 @@ namespace TradingBotTests
             {
                 Backtester bt = new TradingBot.Backtester(@"../../../../BacktestData/1mTestData.json");
                 
-                Assert.Equal(27.0, Math.Round(bt.CurrentPortfolio.BTCBalance));
-                Assert.Equal(100000, bt.CurrentPortfolio.USDTBalance);
+                Assert.Equal(2.7, Math.Round(bt.CurrentPortfolio.BTCBalance, 1));
+                Assert.Equal(10000, bt.CurrentPortfolio.USDTBalance);
 
                 bt.Backtest(1000, 1200);
             }
