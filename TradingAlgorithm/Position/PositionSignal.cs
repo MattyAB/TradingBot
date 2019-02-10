@@ -28,6 +28,7 @@ namespace TradingAlgorithm
             add = false;
             id = p.id;
             longOrShort = p.longOrShort;
+            this.win = win;
         }
     }
 }
