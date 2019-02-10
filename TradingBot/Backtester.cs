@@ -24,14 +24,12 @@ namespace TradingBot
         TradingAlgorithm.TradingAlgorithm algorithm;
         private DataLoader dl;
 
-        public Backtester(string path)
+        public Backtester(DataLoader dl)
         {
-            // Load Data
-            dl = new DataLoader(path);
+            this.dl = dl;
 
             // Create first portfolio, with $1000 of BTC and $1000 of $
             CurrentPortfolio = new Wallet(Const.PortfolioStartValue / dl.GetFirst().close, Const.PortfolioStartValue);
-            Console.WriteLine(CurrentPortfolio.GetTotalBalance(dl.GetFirst().close));
             CurrentPortfolio = currentPortfolio; // Set this to make a second instance in PortfolioHistory
                                                  // - bit of a clunky solution but necessary because on line 
                                                  //    Wallet interimWallet = CurrentPortfolio;
@@ -45,7 +43,7 @@ namespace TradingBot
             algorithm = new TradingAlgorithm.TradingAlgorithm(startTime, decisions);
         }
 
-        public void Backtest(int Pstart, int Pend)
+        public double Backtest(int Pstart, int Pend)
         {
             Const.plotStartPoint = Pstart;
             Const.plotFinishPoint = Pend;
@@ -152,6 +150,12 @@ namespace TradingBot
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.getPointAt(Const.Points).close),
                 longWin, longLoss, shortWin, shortLoss);
+
+            // Return percentage increase
+            return Math.Round(
+                ((PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close) -
+                  PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close)) /
+                 PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close)) * 100, 2);
         }
 
         public int RSIDecision(DataPoint Point)

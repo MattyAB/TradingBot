@@ -61,6 +61,11 @@ namespace TradingBot
             return output;
         }
 
+        public void ResetDL()
+        {
+            currentPoint = 0;
+        }
+
         string LoadData(string path)
         {
             return System.IO.File.ReadAllText(path);
@@ -69,7 +74,7 @@ namespace TradingBot
         public DataPoint GetNextPoint()
         {
             currentPoint++;
-            if(currentPoint % 10000 == 0)
+            if(currentPoint % 10000 == 0 & Const.log)
                 Console.WriteLine(currentPoint);
             if (currentPoint < Const.Points)
                 return dataPoints[currentPoint - 1];

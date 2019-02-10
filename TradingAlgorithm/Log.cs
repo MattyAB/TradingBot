@@ -53,20 +53,23 @@ namespace TradingAlgorithm
             Console.WriteLine("But if we measure with the end price, we finish with a value of " + endValueFluct + "! This is a percentage of " + Math.Round(((endValueFluct - startValue) / startValue) * 100) + "%");
             Console.WriteLine("Total of " + longPos + " long positions and " + shortPos + " short pos");
             **/
+            if (Const.log)
+            {
+                Console.WriteLine();
+                Console.WriteLine(new String('-', 5) + " VALUE " + new String('-', 5));
+                Console.WriteLine("Start value : " + startValue);
+                Console.WriteLine(new String('-', 20));
+                Console.WriteLine("End value : " + endValueConst + "(" + Math.Round(((endValueConst - startValue) / startValue) * 100) + "%)  from start BTC value");
+                Console.WriteLine(new String('-', 20));
+                Console.WriteLine("End value : " + endValueFluct + "(" + Math.Round(((endValueFluct - startValue) / startValue) * 100) + "%)  from final BTC value");
+                Console.WriteLine();
+                Console.WriteLine(new String('-', 5) + " POSITIONS " + new String('-', 5));
+                Console.WriteLine("      WIN   LOSS");
+                Console.WriteLine("LONG  " + longWin + "   " + longLoss + "    " + (longWin + longLoss));
+                Console.WriteLine("SHORT " + shortWin + "   " + shortLoss + "    " + (shortWin + shortLoss));
+                Console.WriteLine("      " + (longWin + shortWin) + "  " + (longLoss + shortLoss) + "    " + (shortWin + shortLoss + longWin + longLoss));
+            }
 
-            Console.WriteLine();
-            Console.WriteLine(new String('-', 5) + " VALUE " + new String('-', 5));
-            Console.WriteLine("Start value : " + startValue);
-            Console.WriteLine(new String('-', 20));
-            Console.WriteLine("End value : " + endValueConst + "(" + Math.Round(((endValueConst - startValue) / startValue) * 100) + "%)  from start BTC value");
-            Console.WriteLine(new String('-', 20));
-            Console.WriteLine("End value : " + endValueFluct + "(" + Math.Round(((endValueFluct - startValue) / startValue) * 100) + "%)  from final BTC value");
-            Console.WriteLine();
-            Console.WriteLine(new String('-', 5) + " POSITIONS " + new String('-', 5));
-            Console.WriteLine("      WIN   LOSS");
-            Console.WriteLine("LONG  " + longWin + "   " + longLoss + "    " + (longWin + longLoss));
-            Console.WriteLine("SHORT " + shortWin + "   " + shortLoss + "    " + (shortWin + shortLoss));
-            Console.WriteLine("      " + (longWin + shortWin) + "  " + (longLoss + shortLoss) + "    " + (shortWin + shortLoss + longWin + longLoss));
         }
     }
 }

@@ -9,6 +9,7 @@ namespace TradingAlgorithm
         public const string backtestPath = @"E:\Documents\Code\C#\TradingBot\BacktestData\dataBTCUSDT.json"; // Path for backtest data
         public const string exportPath = @"../../../../Exports/"; // Export path
         public static int Points = 700000; // How many data points to test on
+        public static bool log = true;
 
         public const double TradeValue = 100; // Trades made are $100
         public const double Fee = 0.001; // Binance maker and taker fees are identical
@@ -22,8 +23,8 @@ namespace TradingAlgorithm
         #region Position
 
         public const int RequiredPositionRestMins = 30; // Minimum minutes between position opening
-        public const double TPPercentage = 0.02; // Fractional start value for take profit
-        public const double SLPercentage = 0.1; // Fractional start value for stop loss
+        public static double TPPercentage = 0.02; // Fractional start value for take profit
+        public static double SLPercentage = 0.1; // Fractional start value for stop loss
 
         #endregion
 
