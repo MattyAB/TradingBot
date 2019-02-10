@@ -50,11 +50,10 @@ namespace TradingBot
             Const.plotStartPoint = Pstart;
             Const.plotFinishPoint = Pend;
 
-            int longPos = 0;
-            int shortPos = 0;
-
-            int win = 0;
-            int loss = 0;
+            int longWin = 0;
+            int longLoss = 0;
+            int shortWin = 0;
+            int shortLoss = 0;
 
             while (true) // For each tick we have stored
             {
@@ -119,20 +118,23 @@ namespace TradingBot
                     if (signal.add)
                     {
                         // If it is a position creation signal
-                        if (signal.longOrShort)
-                            longPos++;
-                        else
-                            shortPos++;
-
                         algorithm.AddPosition(signal.pos);
                     }
                     else
                     {
                         algorithm.RemovePosition(signal.id);
-                        if (signal.win)
-                            win++;
+
+                        if (signal.longOrShort)
+                            if (signal.win)
+                                longWin++;
+                            else
+                                longLoss++;
                         else
-                            loss++;
+                            if (signal.win)
+                                shortWin++;
+                            else
+                                shortLoss++;
+
                     }
                 }
 
@@ -149,7 +151,7 @@ namespace TradingBot
             TradingAlgorithm.Log.FinishUp(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.getPointAt(Const.Points).close),
-                longPos, shortPos, win, loss);
+                longWin, longLoss, shortWin, shortLoss);
         }
 
         public int RSIDecision(DataPoint Point)

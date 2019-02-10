@@ -45,7 +45,7 @@ namespace TradingAlgorithm
         /// <param name="startValue">Initial portfolio value</param>
         /// <param name="endValueConst">Finishing portfolio value, calculated with initial price</param>
         /// <param name="endValueFluct">Finishing portfolio value, calculated with finishing price (subject to price fluctuations)</param>
-        public static void FinishUp(double startValue, double endValueConst, double endValueFluct, int longPos, int shortPos, int win, int loss)
+        public static void FinishUp(double startValue, double endValueConst, double endValueFluct, int longWin, int longLoss, int shortWin, int shortLoss)
         {
             /**
             Console.WriteLine("All done! Started with a portfolio value of " + startValue + "...");
@@ -63,8 +63,10 @@ namespace TradingAlgorithm
             Console.WriteLine("End value : " + endValueFluct + "(" + Math.Round(((endValueFluct - startValue) / startValue) * 100) + "%)  from final BTC value");
             Console.WriteLine();
             Console.WriteLine(new String('-', 5) + " POSITIONS " + new String('-', 5));
-            Console.WriteLine("Long: " + longPos + "    Short: " + shortPos);
-            Console.WriteLine("Win: " + win + "     Loss: " + loss);
+            Console.WriteLine("      WIN   LOSS");
+            Console.WriteLine("LONG  " + longWin + "   " + longLoss + "    " + (longWin + longLoss));
+            Console.WriteLine("SHORT " + shortWin + "   " + shortLoss + "    " + (shortWin + shortLoss));
+            Console.WriteLine("      " + (longWin + shortWin) + "  " + (longLoss + shortLoss) + "    " + (shortWin + shortLoss + longWin + longLoss));
         }
     }
 }
