@@ -47,7 +47,7 @@ namespace TradingAlgorithm
                 bool signal = positions[i].Tick(Point);
                 if (signal)
                 {
-                    returns.Add(new PositionSignal(positions[i]));
+                    returns.Add(new PositionSignal(positions[i], positions[i].WinOrLoss()));
                     positions[i].FinishPlot();
                     positions.RemoveAt(i);
                 }

@@ -53,6 +53,9 @@ namespace TradingBot
             int longPos = 0;
             int shortPos = 0;
 
+            int win = 0;
+            int loss = 0;
+
             while (true) // For each tick we have stored
             {
                 DataPoint Point;
@@ -124,7 +127,13 @@ namespace TradingBot
                         algorithm.AddPosition(signal.pos);
                     }
                     else
+                    {
                         algorithm.RemovePosition(signal.id);
+                        if (signal.win)
+                            win++;
+                        else
+                            loss++;
+                    }
                 }
 
                 if (CurrentPortfolio.USDTBalance < 0 | CurrentPortfolio.BTCBalance < 0)
@@ -140,14 +149,14 @@ namespace TradingBot
             TradingAlgorithm.Log.FinishUp(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.getPointAt(Const.Points).close),
-                longPos, shortPos);
+                longPos, shortPos, win, loss);
         }
 
         public int RSIDecision(DataPoint Point)
         {
-            if (Point.RSI < 30)
+            if (Point.RSI < 10)
                 return 1;
-            if (Point.RSI > 70)
+            if (Point.RSI > 90)
                 return -1;
             return 0;
         }
@@ -158,8 +167,8 @@ namespace TradingBot
             PortfolioHistory.RemoveAt(0);
 
             // Prepare data by cutting it down to one data point every n points (taking an average)
-            List<double[]> portfolios = TruncatePortfolios(PortfolioHistory, data.points, 100);
-            data = TruncateData(data, 100);
+            List<double[]> portfolios = TruncatePortfolios(PortfolioHistory, data.points, 500);
+            data = TruncateData(data, 500);
 
             Plotter finalPlot = new Plotter(FinalPlotSetup(), "FinalPlot");
 
@@ -208,7 +217,7 @@ namespace TradingBot
                 {
                     a += portfolioHistory[j].BTCBalance;
                     b += portfolioHistory[j].USDTBalance;
-                    c += portfolioHistory[j].GetTotalBalance(points[j].close);
+                    c += portfolioHistory[j].GetTotalBalance(points[0].close);
                 }
 
                 output.Add(new double[]

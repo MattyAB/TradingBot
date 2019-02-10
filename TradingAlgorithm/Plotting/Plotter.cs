@@ -10,7 +10,7 @@ namespace TradingAlgorithm
     public class Plotter
     {
         List<Plot> plots;
-        private string fileName;
+        public string fileName;
         private string textLog;
 
         public Plotter(List<PlotterValues> setup, string fileName)

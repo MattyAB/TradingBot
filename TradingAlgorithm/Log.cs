@@ -21,13 +21,20 @@ namespace TradingAlgorithm
         {
             double diff = (endPoint.close - startPrice);
 
+            if (!longOrShort) // Reverse polarity for a short position
+                diff = -diff;
+
+            double percentage = Math.Round((diff / startPrice) * 100);
+
             string text;
-            if (longOrShort)
-                text = "Closed position at price " + endPoint.close + ": net gain of $" + Math.Round(diff, 2) +
-                       ", a percentage increase of " + Math.Round((diff / startPrice) * 100) + "%";
+            text = "Closed position at price " + endPoint.close + ": net gain of $" + Math.Round(diff, 2) +
+                ", a percentage increase of " + percentage + "%";
+
+            if (percentage > 0)
+                plot.fileName += "_WIN";
             else
-                text = "Closed position at price " + endPoint.close + ": net gain of $" + -Math.Round(diff, 2) +
-                       ", a percentage increase of " + Math.Round((-diff / startPrice) * 100) + "%";
+                plot.fileName += "_LOSS";
+
             plot = logText(text, plot);
             return plot;
         }
@@ -38,7 +45,7 @@ namespace TradingAlgorithm
         /// <param name="startValue">Initial portfolio value</param>
         /// <param name="endValueConst">Finishing portfolio value, calculated with initial price</param>
         /// <param name="endValueFluct">Finishing portfolio value, calculated with finishing price (subject to price fluctuations)</param>
-        public static void FinishUp(double startValue, double endValueConst, double endValueFluct, int longPos, int shortPos)
+        public static void FinishUp(double startValue, double endValueConst, double endValueFluct, int longPos, int shortPos, int win, int loss)
         {
             /**
             Console.WriteLine("All done! Started with a portfolio value of " + startValue + "...");
@@ -57,6 +64,7 @@ namespace TradingAlgorithm
             Console.WriteLine();
             Console.WriteLine(new String('-', 5) + " POSITIONS " + new String('-', 5));
             Console.WriteLine("Long: " + longPos + "    Short: " + shortPos);
+            Console.WriteLine("Win: " + win + "     Loss: " + loss);
         }
     }
 }

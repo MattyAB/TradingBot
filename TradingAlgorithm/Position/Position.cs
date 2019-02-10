@@ -123,5 +123,14 @@ namespace TradingAlgorithm
         {
             Task.Run(() => posPlot.BuildSite());
         }
+
+        public bool WinOrLoss()
+        {
+            if (posPlot.fileName.Contains("WIN"))
+                return true;
+            if (posPlot.fileName.Contains("LOSS"))
+                return false;
+            throw new Exception("WinLoss signal attempted when no signal given yet.");
+        }
     }
 }

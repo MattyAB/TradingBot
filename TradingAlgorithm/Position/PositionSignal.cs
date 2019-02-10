@@ -11,8 +11,9 @@ namespace TradingAlgorithm
         public Position pos;
         public int id;
         public bool longOrShort;
+        public bool win;
 
-        // Signal inherets Position
+        // Creation signal
         public PositionSignal(bool longOrShort, int opener, DataPoint OpeningPoint, int id)
         {
             pos = new Position(longOrShort, opener, OpeningPoint, id);
@@ -20,7 +21,8 @@ namespace TradingAlgorithm
             this.longOrShort = longOrShort;
         }
 
-        public PositionSignal(Position p)
+        // Removal signal
+        public PositionSignal(Position p, bool win)
         {
             pos = p;
             add = false;
