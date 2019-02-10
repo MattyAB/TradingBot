@@ -95,7 +95,8 @@ namespace TradingAlgorithm
                 new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
                     Point.RSI });
 
-            await plot.PushValues(plotValues);
+            if (Const.log)
+                await plot.PushValues(plotValues);
         }
 
         public int calculateRSI(DataPoint Point)

@@ -104,7 +104,8 @@ namespace TradingAlgorithm
                     startPrice
                 });
 
-            await posPlot.PushValues(plotValues);
+            if (Const.log)
+                await posPlot.PushValues(plotValues);
         }
 
         Plotter SetupPlot()

@@ -143,8 +143,11 @@ namespace TradingBot
                 CurrentPortfolio = interimWallet;
             }
 
-            AlgorithmData finishingData = algorithm.FinishUp();
-            FinalPlots(finishingData);
+            if (Const.log)
+            {
+                AlgorithmData finishingData = algorithm.FinishUp();
+                FinalPlots(finishingData);
+            }
 
             TradingAlgorithm.Log.FinishUp(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close),
@@ -201,7 +204,8 @@ namespace TradingBot
                         portfolios[i][2] // Total
                     });
 
-                finalPlot.PushValues(plotValues);
+                if(Const.log)
+                    finalPlot.PushValues(plotValues);
             }
 
             finalPlot.BuildSite(true);

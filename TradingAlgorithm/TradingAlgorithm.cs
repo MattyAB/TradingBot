@@ -18,8 +18,9 @@ namespace TradingAlgorithm
         {
             // Clear exports directory
             DirectoryInfo di = new DirectoryInfo(Const.exportPath);
-            foreach (FileInfo file in di.GetFiles())
-                file.Delete();
+            if(Const.log)
+                foreach (FileInfo file in di.GetFiles())
+                    file.Delete();
 
             indicators = new Indicators(startTimeStamp, true);
             opener = new PositionOpener(decisions);
@@ -48,7 +49,8 @@ namespace TradingAlgorithm
                 if (signal)
                 {
                     returns.Add(new PositionSignal(positions[i], positions[i].WinOrLoss()));
-                    positions[i].FinishPlot();
+                    if(Const.log)
+                        positions[i].FinishPlot();
                     positions.RemoveAt(i);
                 }
             }

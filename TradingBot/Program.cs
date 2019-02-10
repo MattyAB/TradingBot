@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using TradingAlgorithm;
 
 namespace TradingBot
@@ -27,25 +28,29 @@ namespace TradingBot
             Const.log = false;
 
             double[][] result = new double[20][];
-            
-            // Load Data
-            DataLoader dl = new DataLoader(Const.backtestPath);
 
             // Gather data - this takes a while.
-            for (double i = 0.005; i < 0.1; i += 0.005)
+            Parallel.For(0, 20, i =>
             {
                 Console.WriteLine(i);
-                result[(int)(i * 200) - 1] = new double[20];
-                for (double j = 0.005; j < 0.1; j += 0.005)
+
+                // Load Data
+                DataLoader dl = new DataLoader(Const.backtestPath);
+
+                Console.WriteLine("L" + i);
+                result[i] = new double[20];
+                for (int j = 0; j < 20; j++)
                 {
-                    Const.TPPercentage = i;
-                    Const.SLPercentage = j;
+                    Const.TPPercentage = (double)(i + 1) / 200;
+                    Const.SLPercentage = (double)(j + 1) / 200;
                     Backtester backtest = new Backtester(dl);
-                    result[(int)(i *200) - 1][(int)(j*200) - 1] = backtest.Backtest(1000, 1500);
+                    result[i][j] = backtest.Backtest(1000, 1500);
 
                     dl.ResetDL();
                 }
-            }
+            });
+
+            Console.WriteLine("Done!");
 
             // Finish by spitting the data into a csv.
             using (StreamWriter outfile = new StreamWriter(@"E:\Documents\Code\C#\TradingBot\Testing\TestTPSL.csv"))
