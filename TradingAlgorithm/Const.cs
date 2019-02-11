@@ -22,7 +22,7 @@ namespace TradingAlgorithm
 
         #region Position
 
-        public const int RequiredPositionRestMins = 30; // Minimum minutes between position opening
+        public static int RequiredPositionRestMins = 30; // Minimum minutes between position opening
         public static double TPPercentage = 0.1; // Fractional start value for take profit
         public static double SLPercentage = 0.0225; // Fractional start value for stop loss
 

@@ -18,9 +18,45 @@ namespace TradingBot
 
             double[] AlgorithmValues = GetValues();
 
+            // Training iterations
             for (int n = 0; n < count; n++)
             {
+                Console.WriteLine("Iteration " + n);
+                double[] scores = new double[valuesCount];
 
+                Backtester firstBT = new Backtester(dl);
+                double reference = firstBT.Backtest(1000, 1500);
+                Console.WriteLine("   Reference: " + reference);
+
+                dl.ResetDL();
+
+                // For all of our array
+                for (int i = 0; i < valuesCount; i++)
+                {
+                    double[] intermediateValues = GetValues();
+                    intermediateValues[i] = intermediateValues[i] * (1 + learnRate);
+                    AssignValues(intermediateValues);
+
+                    Console.Write("   Testing value " + i + " of " + intermediateValues[i] + ": ");
+
+                    Backtester bt = new Backtester(dl);
+                    scores[i] = bt.Backtest(1000, 1500);
+
+                    Console.WriteLine(scores[i]);
+
+                    dl.ResetDL();
+                }
+                
+                Console.WriteLine("   Adjusted new values: ");
+                double[] fractions = new double[valuesCount];
+                for (int i = 0; i < valuesCount; i++)
+                {
+                    fractions[i] = (scores[i] - reference) / reference;
+                    AlgorithmValues[i] += fractions[i] * AlgorithmValues[i];
+                    Console.WriteLine("      " + AlgorithmValues[i]);
+                }
+
+                AssignValues(AlgorithmValues);
             }
         }
 
