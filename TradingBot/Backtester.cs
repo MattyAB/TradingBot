@@ -163,9 +163,9 @@ namespace TradingBot
 
         public int RSIDecision(DataPoint Point)
         {
-            if (Point.RSI < 10)
+            if (Point.RSI < Const.RSILow)
                 return 1;
-            if (Point.RSI > 90)
+            if (Point.RSI > Const.RSIHigh)
                 return -1;
             return 0;
         }

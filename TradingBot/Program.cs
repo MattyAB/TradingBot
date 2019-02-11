@@ -12,7 +12,7 @@ namespace TradingBot
     {
         static void Main(string[] args)
         {
-            TestVars();
+            Backtest();
 
             Console.ReadLine();
         }
@@ -31,15 +31,15 @@ namespace TradingBot
             Const.log = false;
 
             // I variables
-            double iStart = 0.085;
-            double iEnd = 0.1;
-            int Iend = 5;
+            int iStart = 0;
+            int iEnd = 10;
+            int Iend = 4;
             double iStep = (iEnd - iStart) / (Iend + 1);
 
             // J variables
-            double jStart = 0.015;
-            double jEnd = 0.03;
-            int Jend = 5;
+            int jStart = 80;
+            int jEnd = 90;
+            int Jend = 4;
             double jStep = (iEnd - iStart) / (Iend + 1);
 
             double[][] result = new double[Iend + 1][];
@@ -53,8 +53,8 @@ namespace TradingBot
             // Gather data - this takes a while
             for (int i = 0; i <= Iend; i++)
             {
-                double I = iStart + (i * iStep);
-                Const.TPPercentage = I;
+                int I = Convert.ToInt32(iStart + (i * iStep));
+                Const.RSILow = I;
 
                 Console.WriteLine("i: " + I);
                 result[i] = new double[Jend + 1];
@@ -75,10 +75,10 @@ namespace TradingBot
                         Console.WriteLine("Dividing by zero.");
                     }
 
-                    double J = jStart + (j * jStep);
-                    
+                    int J = Convert.ToInt32(jStart + (j * jStep));
+
                     Console.WriteLine(J);
-                    Const.SLPercentage = J;
+                    Const.RSIHigh = J;
 
                     Backtester backtest = new Backtester(dl);
                     result[i][j] = backtest.Backtest(1000, 1500);
@@ -88,7 +88,7 @@ namespace TradingBot
             }
 
             // Finish by spitting the data into a csv.
-            using (StreamWriter outfile = new StreamWriter(@"E:\Documents\Code\C#\TradingBot\Testing\TestTPSL.csv"))
+            using (StreamWriter outfile = new StreamWriter(@"E:\Documents\Code\C#\TradingBot\Testing\TestRSI.csv"))
             {
                 for (int x = 0; x < result.Length; x++)
                 {

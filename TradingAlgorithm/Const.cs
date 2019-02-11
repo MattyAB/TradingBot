@@ -35,6 +35,8 @@ namespace TradingAlgorithm
         public static readonly int MA3PipeLength = 500; // Moving Average 3 pipe length
 
         public static readonly int RSIPeriod = 14;
+        public static int RSILow = 4;
+        public static int RSIHigh = 86;
 
         #endregion
     }
