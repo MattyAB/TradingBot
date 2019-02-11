@@ -12,6 +12,8 @@ namespace TradingBot
     {
         static void Main(string[] args)
         {
+            Trainer.GradientDescent(10, 0.01);
+
             Backtest();
 
             Console.ReadLine();
