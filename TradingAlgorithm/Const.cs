@@ -11,7 +11,7 @@ namespace TradingAlgorithm
         public static int Points = 700000; // How many data points to test on
         public static bool log = true;
 
-        public const double TradeValue = 100; // Trades made are $100
+        public static double TradeValue = 0.05; // Trades made are $100
         public const double Fee = 0.001; // Binance maker and taker fees are identical
         public const int PortfolioStartValue = 1000; // Start value portfolio is this much USD plus this much in BTC
 

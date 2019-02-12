@@ -80,17 +80,19 @@ namespace TradingBot
                         else // short Sell
                             buyOrSell = true;
 
+                    double TradeValue = interimWallet.GetTotalBalance(Point.close) * Const.TradeValue;
+
                     // Check we have enough capital to carry out the change
                     if (buyOrSell)
                     {
                         // Buy
-                        if (interimWallet.USDTBalance < Const.TradeValue)
+                        if (interimWallet.USDTBalance < TradeValue)
                             break;
                     }
                     else
                     {
                         // Sell
-                        if (interimWallet.BTCBalance < Const.TradeValue / Point.close)
+                        if (interimWallet.BTCBalance < TradeValue / Point.close)
                             break;
                     }
 
@@ -99,17 +101,17 @@ namespace TradingBot
                     {
                         // BUY signal
 
-                        double TradeBTC = Const.TradeValue / Point.close;
-                        interimWallet.USDTBalance -= Const.TradeValue;
+                        double TradeBTC = TradeValue / Point.close;
+                        interimWallet.USDTBalance -= TradeValue;
                         interimWallet.BTCBalance += TradeBTC * (1 - 0.001);
                     }
                     else
                     {
                         // SELL signal
 
-                        double TradeBTC = Const.TradeValue / Point.close;
+                        double TradeBTC = TradeValue / Point.close;
                         interimWallet.BTCBalance -= TradeBTC;
-                        interimWallet.USDTBalance += Const.TradeValue * (1 - 0.001);
+                        interimWallet.USDTBalance += TradeValue * (1 - 0.001);
                     }
 
                     // And update the stats.
