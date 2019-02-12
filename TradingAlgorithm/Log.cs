@@ -45,7 +45,7 @@ namespace TradingAlgorithm
         /// <param name="startValue">Initial portfolio value</param>
         /// <param name="endValueConst">Finishing portfolio value, calculated with initial price</param>
         /// <param name="endValueFluct">Finishing portfolio value, calculated with finishing price (subject to price fluctuations)</param>
-        public static void FinishUp(double startValue, double endValueConst, double endValueFluct, int longWin, int longLoss, int shortWin, int shortLoss)
+        public static void FinishUp(double startValue, double endValueConst, double endValueFluct, int longWin, int longLoss, int shortWin, int shortLoss, double days)
         {
             /**
             Console.WriteLine("All done! Started with a portfolio value of " + startValue + "...");
@@ -59,9 +59,9 @@ namespace TradingAlgorithm
                 Console.WriteLine(new String('-', 5) + " VALUE " + new String('-', 5));
                 Console.WriteLine("Start value : " + startValue);
                 Console.WriteLine(new String('-', 20));
-                Console.WriteLine("End value : " + endValueConst + "(" + Math.Round(((endValueConst - startValue) / startValue) * 100) + "%)  from start BTC value");
+                Console.WriteLine("End value : " + endValueConst + "(" + Math.Round(((endValueConst - startValue) / startValue) * 100) + "%)  from start BTC value - AKA " + Math.Round((((endValueConst - startValue) / startValue) * 100 / days), 2) + "% per day");
                 Console.WriteLine(new String('-', 20));
-                Console.WriteLine("End value : " + endValueFluct + "(" + Math.Round(((endValueFluct - startValue) / startValue) * 100) + "%)  from final BTC value");
+                Console.WriteLine("End value : " + endValueFluct + "(" + Math.Round(((endValueFluct - startValue) / startValue) * 100) + "%)  from final BTC value - AKA " + Math.Round((((endValueFluct - startValue) / startValue) * 100 / days), 2) + "% per day");
                 Console.WriteLine();
                 Console.WriteLine(new String('-', 5) + " POSITIONS " + new String('-', 5));
                 Console.WriteLine("      WIN   LOSS");

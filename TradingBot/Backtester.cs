@@ -154,7 +154,8 @@ namespace TradingBot
             TradingAlgorithm.Log.FinishUp(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.getPointAt(Const.Points).close),
-                longWin, longLoss, shortWin, shortLoss);
+                longWin, longLoss, shortWin, shortLoss, 
+                PortfolioHistory.Count / (60 * 24));
 
             // Return percentage increase
             return Math.Round(
