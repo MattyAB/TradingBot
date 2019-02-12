@@ -103,7 +103,7 @@ namespace TradingBot
 
                         double TradeBTC = TradeValue / Point.close;
                         interimWallet.USDTBalance -= TradeValue;
-                        interimWallet.BTCBalance += TradeBTC * (1 - 0.001);
+                        interimWallet.BTCBalance += TradeBTC * (1 - Const.Fee);
                     }
                     else
                     {
@@ -111,7 +111,7 @@ namespace TradingBot
 
                         double TradeBTC = TradeValue / Point.close;
                         interimWallet.BTCBalance -= TradeBTC;
-                        interimWallet.USDTBalance += TradeValue * (1 - 0.001);
+                        interimWallet.USDTBalance += TradeValue * (1 - Const.Fee);
                     }
 
                     // And update the stats.

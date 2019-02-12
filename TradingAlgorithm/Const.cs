@@ -12,7 +12,7 @@ namespace TradingAlgorithm
         public static bool log = true;
 
         public static double TradeValue = 0.05; // Trades made are $100
-        public const double Fee = 0.001; // Binance maker and taker fees are identical
+        public static double Fee = 0.001; // Binance maker and taker fees are identical
         public const int PortfolioStartValue = 1000; // Start value portfolio is this much USD plus this much in BTC
 
         public static int plotStartPoint = 1000;
