@@ -11,7 +11,7 @@ namespace TradingAlgorithm
         public static int Points = 700000; // How many data points to test on
         public static bool log = true;
 
-        public static double TradeValue = 0.05; // Trades made are $100
+        public static double TradeValue = 0.088477; // Trades made are $100
         public static double Fee = 0.001; // Binance maker and taker fees are identical
         public const int PortfolioStartValue = 1000; // Start value portfolio is this much USD plus this much in BTC
 
@@ -23,8 +23,8 @@ namespace TradingAlgorithm
         #region Position
 
         public static int RequiredPositionRestMins = 30; // Minimum minutes between position opening
-        public static double TPPercentage = 0.1; // Fractional start value for take profit
-        public static double SLPercentage = 0.0225; // Fractional start value for stop loss
+        public static double TPPercentage = 0.1951577; // Fractional start value for take profit
+        public static double SLPercentage = 0.07175756; // Fractional start value for stop loss
 
         #endregion
 
