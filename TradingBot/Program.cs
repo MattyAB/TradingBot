@@ -12,7 +12,9 @@ namespace TradingBot
     {
         static void Main(string[] args)
         {
-            Trainer.GradientDescent(10, 0.01);
+            Trainer.GradientDescent(100, 0.01);
+
+            Const.log = true;
 
             Backtest();
 
