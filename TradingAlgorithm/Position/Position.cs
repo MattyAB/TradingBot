@@ -68,13 +68,13 @@ namespace TradingAlgorithm
                 // Take profit?
                 if (Point.close > takeProfit)
                 {
-                    posPlot = Log.WriteClosePosition(Point.close, Point, longOrShort, posPlot, Point.TickNumber);
+                    posPlot = Log.WriteClosePosition(OpeningPoint.close, Point, longOrShort, posPlot, Point.TickNumber);
                     return true;
                 }
                 // Stop loss?
                 if (Point.close < stopLoss)
                 {
-                    posPlot = Log.WriteClosePosition(Point.close, Point, longOrShort, posPlot, Point.TickNumber);
+                    posPlot = Log.WriteClosePosition(OpeningPoint.close, Point, longOrShort, posPlot, Point.TickNumber);
                     return true;
                 }
                 
@@ -176,7 +176,7 @@ namespace TradingAlgorithm
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("Values_graph",
                 new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
-                    Point.close,
+                    OpeningPoint.close,
                     takeProfit,
                     stopLoss,
                     Point.close
@@ -195,7 +195,8 @@ namespace TradingAlgorithm
             Values.htmlName = "Values_graph";
             Values.columnNames = new string[] { "Timestamp", "Values", "TP", "SL", "StartValues" };
             plotterSetup.Add(Values);
-            return new Plotter(plotterSetup, "Pos_" + id);
+            string LongOrShort = longOrShort ? "_LONG" : "_SHORT";
+            return new Plotter(plotterSetup, "Pos_" + id + LongOrShort);
         }
 
         public void FinishPlot()
