@@ -25,7 +25,7 @@ namespace TradingAlgorithm
         public static int RequiredPositionRestMins = 30; // Minimum minutes between position opening
         public static double TPPercentage = 0.1356; // Fractional start value for take profit
         public static double SLPercentage = 0.051336; // Fractional start value for stop loss
-        public static bool ClampTPSL = false; // False if we want to keep the TPSL values constant.
+        public static bool ClampTPSL = true; // False if we want to keep the TPSL values constant.
         public static double TPSLClampValue = 0.0003033984; // Percentage to clamp per tick.
         public static double LongBreakevenMultiplier = 0.29759; // Starting value - no idea how good this will be
         public static double ShortBreakevenMultiplier = 0.3307884; // Starting value - no idea how good this will be
