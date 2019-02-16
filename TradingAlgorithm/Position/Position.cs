@@ -175,7 +175,7 @@ namespace TradingAlgorithm
         {
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("Values_graph",
-                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                new[]{ Point.TickNumber,
                     OpeningPoint.close,
                     takeProfit,
                     stopLoss,

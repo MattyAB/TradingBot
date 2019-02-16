@@ -83,16 +83,16 @@ namespace TradingAlgorithm
         {
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("ma_graph",
-                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                new[]{ Point.TickNumber,
                     Point.close,
                     Math.Round(DoubleConvert(Point.MA1), 3),
                     Math.Round(DoubleConvert(Point.MA2), 3),
                     Math.Round(DoubleConvert(Point.MA3), 3) });
             plotValues.Add("port_graph",
-                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                new[]{ Point.TickNumber,
                     portfolioValue });
             plotValues.Add("rsi_graph",
-                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                new[]{ Point.TickNumber,
                     Point.RSI });
 
             if (Const.log)

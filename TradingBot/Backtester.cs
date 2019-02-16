@@ -189,19 +189,19 @@ namespace TradingBot
                 Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
 
                 plotValues.Add("price_graph",
-                    new[]{ (Int32)(data.points[i].openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    new[]{ data.points[i].TickNumber,
                         data.points[i].close
                     });
 
                 plotValues.Add("pos_graph",
-                    new[]{ (Int32)(data.points[i].openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    new[]{ data.points[i].TickNumber,
                         (double)data.longPos[i],
                         (double)data.shortPos[i],
                         (double)(data.shortPos[i] + data.longPos[i])
                     });
 
                 plotValues.Add("value_graph",
-                    new[]{ (Int32)(data.points[i].openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    new[]{ data.points[i].TickNumber,
                         portfolios[i][0], // BTC
                         portfolios[i][1], // USD
                         portfolios[i][2] // Total
