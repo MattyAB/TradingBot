@@ -123,13 +123,13 @@ namespace TradingAlgorithm
                 // Take profit?
                 if (Point.close < takeProfit)
                 {
-                    posPlot = Log.WriteClosePosition(Point.close, Point, longOrShort, posPlot, Point.TickNumber);
+                    posPlot = Log.WriteClosePosition(OpeningPoint.close, Point, longOrShort, posPlot, Point.TickNumber);
                     return true;
                 }
                 // Stop loss?
                 if (Point.close > stopLoss)
                 {
-                    posPlot = Log.WriteClosePosition(Point.close, Point, longOrShort, posPlot, Point.TickNumber);
+                    posPlot = Log.WriteClosePosition(OpeningPoint.close, Point, longOrShort, posPlot, Point.TickNumber);
                     return true;
                 }
 
