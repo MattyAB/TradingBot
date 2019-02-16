@@ -117,9 +117,9 @@ namespace TradingAlgorithm
             File.WriteAllText(Const.exportPath + fileName + ".html", html);
         }
 
-        public void addText(string text)
+        public void addText(int TickNumber, string text)
         {
-            textLog += text + "<br/>";
+            textLog += TickNumber + ": " + text + "<br/>";
         }
     }
 

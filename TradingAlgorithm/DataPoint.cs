@@ -6,6 +6,8 @@ namespace TradingAlgorithm
 {
     public class DataPoint
     {
+        public int TickNumber;
+
         #region Candlestick
 
         public double open;

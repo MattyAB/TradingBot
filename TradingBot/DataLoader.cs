@@ -36,10 +36,15 @@ namespace TradingBot
             List<string[]> DataRaw = JsonConvert.DeserializeObject<List<string[]>>(data);
 
             List<DataPoint> output = new List<DataPoint>();
-            
+
+            int TickNo = 0;
+
             foreach(string[] Data in DataRaw)
             {
                 DataPoint Point = new DataPoint();
+
+                Point.TickNumber = TickNo;
+                TickNo++;
 
                 DateTime openTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                 Point.openTime = openTime.AddMilliseconds(Convert.ToInt64(Data[0]));

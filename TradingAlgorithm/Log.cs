@@ -11,13 +11,13 @@ namespace TradingAlgorithm
         // TODO : building the log to log to console and a text file
         // TODO : predefined log methods that have values passed in
 
-        public static Plotter logText(string text, Plotter plot)
+        public static Plotter logText(int TickNo, string text, Plotter plot)
         {
-            plot.addText(text);
+            plot.addText(TickNo, text);
             return plot;
         }
 
-        public static Plotter WriteClosePosition(double startPrice, DataPoint endPoint, bool longOrShort, Plotter plot)
+        public static Plotter WriteClosePosition(double startPrice, DataPoint endPoint, bool longOrShort, Plotter plot, int TickNo)
         {
             double diff = (endPoint.close - startPrice);
 
@@ -35,7 +35,7 @@ namespace TradingAlgorithm
             else
                 plot.fileName += "_LOSS";
 
-            plot = logText(text, plot);
+            plot = logText(TickNo, text, plot);
             return plot;
         }
 

@@ -72,7 +72,7 @@ namespace TradingAlgorithm
             Point.RSI = calculateRSI(Point);
 
             if (Const.plotStart < Point.openTime && Const.plotFinish > Point.openTime)
-                Task.Run(() => PushPlotValues(Point, portfolioValue));
+                PushPlotValues(Point, portfolioValue);
 
             points.Add(Point);
 
@@ -133,7 +133,7 @@ namespace TradingAlgorithm
         {
             try
             {
-                Task.Run(() => plot.BuildSite());
+                plot.BuildSite();
             }
             catch (ArgumentOutOfRangeException e)
             {

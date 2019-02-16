@@ -11,8 +11,12 @@ namespace TradingAlgorithm
         private int openerUsed;
         private DataPoint OpeningPoint;
         private Plotter posPlot;
-        private double startPrice;
-        
+        private double close;
+        private bool pulledStopLoss = false;
+        private double LongBreakevenPoint; // Not quite a breakeven price but can train to see what the best value is
+        private double ShortBreakevenPoint;
+        private bool atLoss = false;
+
         public bool longOrShort { get; private set; }
         public int id;
         public double takeProfit;
@@ -24,7 +28,7 @@ namespace TradingAlgorithm
             openerUsed = opener;
             this.OpeningPoint = OpeningPoint;
             this.id = id;
-            startPrice = OpeningPoint.close;
+            close = OpeningPoint.close;
 
             if (longOrShort)
             {
@@ -43,16 +47,19 @@ namespace TradingAlgorithm
                 stopLoss = OpeningPoint.close * (1 + Const.SLPercentage);
             }
 
-            posPlot = SetupPlot();
-            Task.Run(() => PushPlotValues(OpeningPoint));
+            LongBreakevenPoint = Math.Round(OpeningPoint.close * Const.LongBreakevenMultiplier, 4);
+            ShortBreakevenPoint = Math.Round(OpeningPoint.close * Const.ShortBreakevenMultiplier, 4);
 
-            posPlot = Log.logText("Opened position with opener " + opener + " at price " + OpeningPoint.close, posPlot);
+            posPlot = SetupPlot();
+            PushPlotValues(OpeningPoint);
+
+            posPlot = Log.logText(OpeningPoint.TickNumber, "Opened position with opener " + opener + " at Point.close " + OpeningPoint.close, posPlot);
         }
 
         // True when signalling to end position
         public bool Tick(DataPoint Point)
         {
-            Task.Run(() => PushPlotValues(Point));
+            PushPlotValues(Point);
 
             if (longOrShort)
             {
@@ -61,14 +68,52 @@ namespace TradingAlgorithm
                 // Take profit?
                 if (Point.close > takeProfit)
                 {
-                    posPlot = Log.WriteClosePosition(startPrice, Point, longOrShort, posPlot);
+                    posPlot = Log.WriteClosePosition(Point.close, Point, longOrShort, posPlot, Point.TickNumber);
                     return true;
                 }
                 // Stop loss?
                 if (Point.close < stopLoss)
                 {
-                    posPlot = Log.WriteClosePosition(startPrice, Point, longOrShort, posPlot);
+                    posPlot = Log.WriteClosePosition(Point.close, Point, longOrShort, posPlot, Point.TickNumber);
                     return true;
+                }
+                
+                if (Const.ClampTPSL)
+                {
+                    // Close in the takeprofit and stoploss values a little
+                    // The longer we run the more we move these numbers closer to starting price
+                    stopLoss -= (stopLoss - Point.close) * Const.TPSLClampValue;
+                    takeProfit -= (takeProfit - Point.close) * Const.TPSLClampValue;
+
+                    // If the slow MA is going in the wrong direction then pull the stoploss in even more
+                    if (Point.MA2 < Point.MA3)
+                    {
+                        if (!pulledStopLoss)
+                        {
+                            posPlot.addText(Point.TickNumber, "Pulling stoploss due to MA");
+                            pulledStopLoss = true;
+                        }
+                        stopLoss += (Point.MA3.Value - Point.MA2.Value) / 8;
+                        takeProfit -= (Point.MA3.Value - Point.MA2.Value) / 8;
+
+                        // If at a loss, set takeProfit to BreakEvenPoint.close
+                        if (Point.close < LongBreakevenPoint)
+                        {
+                            if (!atLoss)
+                            {
+                                posPlot.addText(Point.TickNumber, "At a loss. Setting TakeProfit to breakeven");
+                                atLoss = true;
+                            }
+                            takeProfit = LongBreakevenPoint;
+                        }
+                    }
+
+                    /** We Don't have a chop indicator yet - TODO!!!
+                    if (Point.Chop > 60)
+                    {
+                        stopLoss += (Point.Chop - 60) / 16;
+                    }
+                    **/
                 }
             }
             else
@@ -78,16 +123,49 @@ namespace TradingAlgorithm
                 // Take profit?
                 if (Point.close < takeProfit)
                 {
-                    posPlot = Log.WriteClosePosition(startPrice, Point, longOrShort, posPlot);
+                    posPlot = Log.WriteClosePosition(Point.close, Point, longOrShort, posPlot, Point.TickNumber);
                     return true;
                 }
                 // Stop loss?
                 if (Point.close > stopLoss)
                 {
-                    posPlot = Log.WriteClosePosition(startPrice, Point, longOrShort, posPlot);
+                    posPlot = Log.WriteClosePosition(Point.close, Point, longOrShort, posPlot, Point.TickNumber);
                     return true;
                 }
+
+                if (Const.ClampTPSL)
+                {
+                    // Close in the takeprofit and stoploss values a little
+                    // The longer we run the more we move these numbers closer to starting Point.close
+                    stopLoss -= (stopLoss - Point.close) * Const.TPSLClampValue;
+                    takeProfit -= (takeProfit - Point.close) * Const.TPSLClampValue;
+
+                    // If the slow MA is going in the wrong direction then pull the stoploss in even more
+                    if (Point.MA2 >Point.MA3)
+                    {
+                        if (!pulledStopLoss)
+                        {
+                            posPlot.addText(Point.TickNumber, "Pulling stoploss due to MA");
+                            pulledStopLoss = true;
+                        }
+                        stopLoss -= (Point.MA2.Value - Point.MA3.Value) / 16;
+                        takeProfit += (Point.MA2.Value - Point.MA3.Value) / 16;
+
+                        // If at a loss, set takeProfit to BreakEvenPoint.close
+                        if (Point.close > ShortBreakevenPoint)
+                        {
+                            if (!atLoss)
+                            {
+                                posPlot.addText(Point.TickNumber, "At a loss. Setting TakeProfit to breakeven");
+                                atLoss = true;
+                            }
+                            takeProfit = ShortBreakevenPoint;
+                        }
+                    }
+                }
             }
+
+
 
             // No signal to end position
             return false;
@@ -96,12 +174,12 @@ namespace TradingAlgorithm
         public async Task PushPlotValues(DataPoint Point)
         {
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
-            plotValues.Add("price_graph",
+            plotValues.Add("Values_graph",
                 new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
                     Point.close,
                     takeProfit,
                     stopLoss,
-                    startPrice
+                    Point.close
                 });
 
             if (Const.log)
@@ -111,18 +189,18 @@ namespace TradingAlgorithm
         Plotter SetupPlot()
         {
             List<PlotterValues> plotterSetup = new List<PlotterValues>();
-            PlotterValues Price = new PlotterValues();
-            Price.title = "Price";
-            Price.jsName = "drawPrice";
-            Price.htmlName = "price_graph";
-            Price.columnNames = new string[] { "Timestamp", "Price", "TP", "SL", "StartPrice" };
-            plotterSetup.Add(Price);
+            PlotterValues Values = new PlotterValues();
+            Values.title = "Values";
+            Values.jsName = "drawValues";
+            Values.htmlName = "Values_graph";
+            Values.columnNames = new string[] { "Timestamp", "Values", "TP", "SL", "StartValues" };
+            plotterSetup.Add(Values);
             return new Plotter(plotterSetup, "Pos_" + id);
         }
 
         public void FinishPlot()
         {
-            Task.Run(() => posPlot.BuildSite());
+            posPlot.BuildSite();
         }
 
         public bool WinOrLoss()
