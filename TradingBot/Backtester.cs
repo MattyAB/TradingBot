@@ -51,6 +51,8 @@ namespace TradingBot
             Const.plotStartPoint = Pstart;
             Const.plotFinishPoint = Pend;
 
+            int TickNo = 0;
+
             int longWin = 0;
             int longLoss = 0;
             int shortWin = 0;
@@ -60,9 +62,9 @@ namespace TradingBot
             {
                 DataPoint Point;
                 // Get the next data point
-                Point = dl.GetNextPoint();
-                if (Point == null)
+                if (TickNo > Const.Points)
                     break;
+                Point = dl.getPointAt(TickNo);
 
                 Wallet interimWallet = (Wallet)CurrentPortfolio.Clone();
 
@@ -146,6 +148,8 @@ namespace TradingBot
 
                 // Finish up by committing the current wallet to our history.
                 CurrentPortfolio = interimWallet;
+
+                TickNo++;
             }
 
             if (Const.log)
