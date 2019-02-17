@@ -30,6 +30,7 @@ namespace TradingBot
                 double reference = 0;
 
                 // For all of our array
+                // I goes for one more - when zero it is doing the reference value test
                 Parallel.For(0, valuesCount + 1, i =>
                 {
                     if (i == 0)
@@ -47,7 +48,7 @@ namespace TradingBot
                     }
                     else
                     {
-                        i = i - 1;
+                        i = i - 1; // Here i needs to be dropped back down to its expected, to fit the range of the array.
 
                         double[] intermediateValues = GetValues();
                         intermediateValues[i] = intermediateValues[i] * (1 + learnRate);
