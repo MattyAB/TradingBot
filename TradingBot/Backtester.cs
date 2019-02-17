@@ -51,6 +51,8 @@ namespace TradingBot
             Const.plotStartPoint = Pstart;
             Const.plotFinishPoint = Pend;
 
+            int logStep = Const.Points / 100;
+
             int TickNo = 0;
 
             int longWin = 0;
@@ -65,6 +67,9 @@ namespace TradingBot
                 if (TickNo > Const.Points)
                     break;
                 Point = dl.getPointAt(TickNo);
+
+                if (TickNo % logStep == 0 && Const.log)
+                    Console.WriteLine((TickNo / logStep) + "%");
 
                 Wallet interimWallet = (Wallet)CurrentPortfolio.Clone();
 
