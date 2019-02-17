@@ -28,8 +28,11 @@ namespace TradingBot
         {
             this.dl = dl;
 
+            double BTCStartValueUSD = (Const.PortfolioStartRatio * Const.PortfolioStartValue) / (Const.PortfolioStartRatio + 1);
+            double USDStartValue = Const.PortfolioStartValue / (Const.PortfolioStartRatio + 1);
+
             // Create first portfolio, with $1000 of BTC and $1000 of $
-            CurrentPortfolio = new Wallet(Const.PortfolioStartValue / dl.GetFirst().close, Const.PortfolioStartValue);
+            CurrentPortfolio = new Wallet(BTCStartValueUSD / dl.GetFirst().close, USDStartValue);
             CurrentPortfolio = currentPortfolio; // Set this to make a second instance in PortfolioHistory
                                                  // - bit of a clunky solution but necessary because on line 
                                                  //    Wallet interimWallet = CurrentPortfolio;

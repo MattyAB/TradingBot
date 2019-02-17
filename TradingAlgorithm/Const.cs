@@ -13,8 +13,9 @@ namespace TradingAlgorithm
 
         public static double TradeValue = 0.04536; // Trades made are $100
         public static double Fee = 0.001; // Binance maker and taker fees are identical
-        public const int PortfolioStartValue = 1000; // Start value portfolio is this much USD plus this much in BTC
-
+        public const int PortfolioStartValue = 2000; // Start value portfolio is this much USD plus this much in BTC
+        public static double PortfolioStartRatio = 1; // Ratio of BTC to USD in the start portfolio.
+        
         public static int plotStartPoint = 1000;
         public static int plotFinishPoint = 10000;
         public static DateTime plotStart;
