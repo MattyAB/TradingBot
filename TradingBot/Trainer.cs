@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using TradingAlgorithm;
@@ -44,6 +45,7 @@ namespace TradingBot
                             bestProfit = reference;
                             BestValues = AlgorithmValues;
                             Console.WriteLine("New Best! " + bestProfit);
+                            SaveValues();
                         }
                     }
                     else
@@ -64,6 +66,7 @@ namespace TradingBot
                             bestProfit = scores[i];
                             BestValues = intermediateValues;
                             Console.WriteLine("New Best! " + bestProfit);
+                            SaveValues();
                         }
                     }
                 });
@@ -116,6 +119,41 @@ namespace TradingBot
             values[5] = Const.PortfolioStartRatio;
 
             return values;
+        }
+
+        public static void LoadValues()
+        {
+            string raw = File.ReadAllText(Const.trainingValuesPath);
+
+            string[] strings = raw.Split(',');
+
+            if (strings.Length != valuesCount)
+                throw new Exception("Number of values incorrect.");
+
+            double[] values = new double[valuesCount];
+
+            for (int i = 0; i < strings.Length; i++)
+            {
+                values[i] = Convert.ToDouble(strings[i]);
+            }
+
+            AssignValues(values);
+        }
+
+        public static void SaveValues()
+        {
+            double[] values = GetValues();
+
+            string output = "";
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                output += values[i].ToString();
+                if (i != values.Length - 1)
+                    output += ", ";
+            }
+
+            File.WriteAllText(Const.trainingValuesPath, output);
         }
     }
 }

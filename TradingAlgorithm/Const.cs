@@ -8,6 +8,7 @@ namespace TradingAlgorithm
     {
         public const string backtestPath = @"E:\Documents\Code\C#\TradingBot\BacktestData\dataBTCUSDT.json"; // Path for backtest data
         public const string exportPath = @"../../../../Exports/"; // Export path
+        public const string trainingValuesPath = @"E:\Documents\Code\C#\TradingBot\Testing\values.csv";
         public static int Points = 700000; // How many data points to test on
         public static bool log = true;
 
