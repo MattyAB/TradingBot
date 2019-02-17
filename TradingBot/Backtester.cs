@@ -274,6 +274,7 @@ namespace TradingBot
                 DataPoint outPoint = new DataPoint();
                 outPoint.close = a / n;
                 outPoint.openTime = data.points[i].openTime;
+                outPoint.TickNumber = data.points[i].TickNumber;
                 output.points.Add(outPoint);
 
                 output.longPos.Add(b / n);
