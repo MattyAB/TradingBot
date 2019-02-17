@@ -45,8 +45,8 @@ namespace TradingAlgorithm
             // Now tick all positions
             for(int i = 0; i < positions.Count; i++)
             {
-                bool signal = positions[i].Tick(Point);
-                if (signal)
+                int signal = positions[i].Tick(Point);
+                if (signal == -1) // SELL
                 {
                     returns.Add(new PositionSignal(positions[i], positions[i].WinOrLoss()));
                     if(Const.log)

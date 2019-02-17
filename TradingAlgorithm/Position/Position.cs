@@ -57,7 +57,7 @@ namespace TradingAlgorithm
         }
 
         // True when signalling to end position
-        public bool Tick(DataPoint Point)
+        public int Tick(DataPoint Point)
         {
             PushPlotValues(Point);
 
@@ -69,13 +69,13 @@ namespace TradingAlgorithm
                 if (Point.close > takeProfit)
                 {
                     posPlot = Log.WriteClosePosition(OpeningPoint.close, Point, longOrShort, posPlot, Point.TickNumber);
-                    return true;
+                    return -1; // SELL
                 }
                 // Stop loss?
                 if (Point.close < stopLoss)
                 {
                     posPlot = Log.WriteClosePosition(OpeningPoint.close, Point, longOrShort, posPlot, Point.TickNumber);
-                    return true;
+                    return -1; // SELL
                 }
                 
                 if (Const.ClampTPSL)
@@ -124,13 +124,13 @@ namespace TradingAlgorithm
                 if (Point.close < takeProfit)
                 {
                     posPlot = Log.WriteClosePosition(OpeningPoint.close, Point, longOrShort, posPlot, Point.TickNumber);
-                    return true;
+                    return -1; // SELL
                 }
                 // Stop loss?
                 if (Point.close > stopLoss)
                 {
                     posPlot = Log.WriteClosePosition(OpeningPoint.close, Point, longOrShort, posPlot, Point.TickNumber);
-                    return true;
+                    return -1; // SELL
                 }
 
                 if (Const.ClampTPSL)
@@ -168,7 +168,7 @@ namespace TradingAlgorithm
 
 
             // No signal to end position
-            return false;
+            return 0;
         }
 
         public async Task PushPlotValues(DataPoint Point)
