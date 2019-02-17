@@ -7,7 +7,7 @@ namespace TradingBot
 {
     class Trainer
     {
-        private const int valuesCount = 6;
+        private const int valuesCount = 5;
 
         public static void GradientDescent(int count, double learnRate)
         {
@@ -68,7 +68,7 @@ namespace TradingBot
                 for (int i = 0; i < valuesCount; i++)
                 {
                     fractions[i] = (scores[i] - reference) / reference;
-                    AlgorithmValues[i] -= fractions[i] * AlgorithmValues[i];
+                    AlgorithmValues[i] += fractions[i] * AlgorithmValues[i];
                     Console.WriteLine("      " + AlgorithmValues[i]);
                 }
 
@@ -91,9 +91,8 @@ namespace TradingBot
             Const.TPPercentage = values[0];
             Const.SLPercentage = values[1];
             Const.TradeValue = values[2];
-            Const.TPSLClampValue = values[3];
-            Const.LongBreakevenMultiplier = values[4];
-            Const.ShortBreakevenMultiplier = values[5];
+            Const.TPClampValue = values[3];
+            Const.SLClampValue = values[4];
         }
 
         static double[] GetValues()
@@ -103,9 +102,8 @@ namespace TradingBot
             values[0] = Const.TPPercentage;
             values[1] = Const.SLPercentage;
             values[2] = Const.TradeValue;
-            values[3] = Const.TPSLClampValue;
-            values[4] = Const.LongBreakevenMultiplier;
-            values[5] = Const.ShortBreakevenMultiplier;
+            values[3] = Const.TPClampValue;
+            values[4] = Const.SLClampValue;
 
             return values;
         }

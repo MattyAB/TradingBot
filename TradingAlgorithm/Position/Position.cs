@@ -82,8 +82,8 @@ namespace TradingAlgorithm
                 {
                     // Close in the takeprofit and stoploss values a little
                     // The longer we run the more we move these numbers closer to starting price
-                    stopLoss -= (stopLoss - Point.close) * Const.TPSLClampValue;
-                    takeProfit += (takeProfit - Point.close) * Const.TPSLClampValue;
+                    stopLoss -= (stopLoss - Point.close) * Const.SLClampValue;
+                    takeProfit += (takeProfit - Point.close) * Const.TPClampValue;
 
                     // If the slow MA is going in the wrong direction then pull the stoploss in even more
                     if (Point.MA2 < Point.MA3 && false)
@@ -137,8 +137,8 @@ namespace TradingAlgorithm
                 {
                     // Close in the takeprofit and stoploss values a little
                     // The longer we run the more we move these numbers closer to starting Point.close
-                    stopLoss -= (stopLoss - Point.close) * Const.TPSLClampValue;
-                    takeProfit += (takeProfit - Point.close) * Const.TPSLClampValue;
+                    stopLoss -= (stopLoss - Point.close) * Const.SLClampValue;
+                    takeProfit += (takeProfit - Point.close) * Const.TPClampValue;
 
                     // If the slow MA is going in the wrong direction then pull the stoploss in even more
                     if (Point.MA2 >Point.MA3 && false)

@@ -11,7 +11,7 @@ namespace TradingAlgorithm
         public static int Points = 700000; // How many data points to test on
         public static bool log = true;
 
-        public static double TradeValue = 0.02759; // Trades made are $100
+        public static double TradeValue = 0.04536; // Trades made are $100
         public static double Fee = 0.001; // Binance maker and taker fees are identical
         public const int PortfolioStartValue = 1000; // Start value portfolio is this much USD plus this much in BTC
 
@@ -23,10 +23,11 @@ namespace TradingAlgorithm
         #region Position
 
         public static int RequiredPositionRestMins = 30; // Minimum minutes between position opening
-        public static double TPPercentage = 0.1356; // Fractional start value for take profit
-        public static double SLPercentage = 0.051336; // Fractional start value for stop loss
+        public static double TPPercentage = 0.1510857; // Fractional start value for take profit
+        public static double SLPercentage = 0.0385811675; // Fractional start value for stop loss
         public static bool ClampTPSL = true; // False if we want to keep the TPSL values constant.
-        public static double TPSLClampValue = 0.0003033984; // Percentage to clamp per tick.
+        public static double TPClampValue = 0.000202671; // Percentage to clamp per tick.
+        public static double SLClampValue = 0.0001913481; // Percentage to clamp per tick.
         public static double LongBreakevenMultiplier = 0.29759; // Starting value - no idea how good this will be
         public static double ShortBreakevenMultiplier = 0.3307884; // Starting value - no idea how good this will be
 
