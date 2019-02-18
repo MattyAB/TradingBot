@@ -6,6 +6,7 @@ namespace TradingAlgorithm
 {
     public class Const
     {
+        public const string apiKey = @"E:\Documents\Code\C#\TradingBot\TradingBot\API.txt";
         public const string backtestPath = @"E:\Documents\Code\C#\TradingBot\BacktestData\dataBTCUSDT.json"; // Path for backtest data
         public const string exportPath = @"../../../../Exports/"; // Export path
         public const string trainingValuesPath = @"E:\Documents\Code\C#\TradingBot\Testing\values.csv";
