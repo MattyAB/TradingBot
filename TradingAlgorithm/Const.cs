@@ -33,6 +33,9 @@ namespace TradingAlgorithm
         public static double LongBreakevenMultiplier = 0.29759; // Starting value - no idea how good this will be
         public static double ShortBreakevenMultiplier = 0.3307884; // Starting value - no idea how good this will be
 
+        public static double longMACrossThreshold = -1;
+        public static double shortMACrossThreshold = 1;
+
         #endregion
 
         #region Indicators

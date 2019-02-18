@@ -85,6 +85,16 @@ namespace TradingAlgorithm
                     stopLoss -= (stopLoss - Point.close) * Const.SLClampValue;
                     takeProfit += (takeProfit - Point.close) * Const.TPClampValue;
 
+                    if (Point.MACross < Const.longMACrossThreshold && stopLoss < OpeningPoint.close && false)
+                    {
+                        if (!pulledStopLoss)
+                        {
+                            posPlot.addText(Point.TickNumber, "Pulling stoploss due to MA");
+                            pulledStopLoss = true;
+                            stopLoss = OpeningPoint.close;
+                        }
+                    }
+                        
                     // If the slow MA is going in the wrong direction then pull the stoploss in even more
                     if (Point.MA2 < Point.MA3 && false)
                     {
@@ -140,6 +150,16 @@ namespace TradingAlgorithm
                     stopLoss -= (stopLoss - Point.close) * Const.SLClampValue;
                     takeProfit += (takeProfit - Point.close) * Const.TPClampValue;
 
+                    if (Point.MACross > Const.shortMACrossThreshold  && stopLoss > OpeningPoint.close && false)
+                    {
+                        if (!pulledStopLoss)
+                        {
+                            posPlot.addText(Point.TickNumber, "Pulling stoploss due to MA");
+                            pulledStopLoss = true;
+                            stopLoss = OpeningPoint.close;
+                        }
+                    }
+
                     // If the slow MA is going in the wrong direction then pull the stoploss in even more
                     if (Point.MA2 >Point.MA3 && false)
                     {
@@ -181,6 +201,13 @@ namespace TradingAlgorithm
                     stopLoss,
                     Point.close
                 });
+            plotValues.Add("Ma_graph",
+                new[]{ Point.TickNumber,
+                    Point.close,
+                    Point.MA1.Value,
+                    Point.MA2.Value,
+                    Point.MA3.Value
+                });
 
             if (Const.log)
                 await posPlot.PushValues(plotValues);
@@ -194,6 +221,12 @@ namespace TradingAlgorithm
             Values.jsName = "drawValues";
             Values.htmlName = "Values_graph";
             Values.columnNames = new string[] { "Timestamp", "Values", "TP", "SL", "StartValues" };
+            plotterSetup.Add(Values);
+            PlotterValues Ma = new PlotterValues();
+            Values.title = "MA";
+            Values.jsName = "drawMa";
+            Values.htmlName = "Ma_graph";
+            Values.columnNames = new string[] { "Timestamp", "Price", "MA1", "MA2", "MA3" };
             plotterSetup.Add(Values);
             string LongOrShort = longOrShort ? "_LONG" : "_SHORT";
             return new Plotter(plotterSetup, "Pos_" + id + LongOrShort);

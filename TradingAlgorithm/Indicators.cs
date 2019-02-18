@@ -68,6 +68,18 @@ namespace TradingAlgorithm
             Point.MA2 = MA2.Push(Point.close);
             Point.MA3 = MA3.Push(Point.close);
 
+            if ((Point.MA1 < Point.MA3 && 
+                points[points.Count - 1].MA1 > points[points.Count - 1].MA3) |
+                (Point.MA1 > Point.MA3 &&
+                 points[points.Count - 1].MA1 < points[points.Count - 1].MA3))
+            {
+                Point.MACross = Point.MA1 - Point.MA3;
+            }
+            else
+            {
+                Point.MACross = 0;
+            }
+
             RSIPipe.Push(Point.close);
             Point.RSI = calculateRSI(Point);
 

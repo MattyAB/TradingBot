@@ -30,6 +30,7 @@ namespace TradingAlgorithm
         public double? MA1;
         public double? MA2;
         public double? MA3;
+        public double? MACross;
 
         // RSI
         public double RSI;
