@@ -21,10 +21,12 @@ namespace TradingBot
             ApiClient apiClient = new ApiClient(keys[0], keys[1]);
             binanceClient = new BinanceClient(apiClient);
 
+            var serverTime = binanceClient.GetServerTime().Result;
+
             List<PositionOpener.PositionDecision> decisions = new List<PositionOpener.PositionDecision>();
             decisions.Add(Backtester.RSIDecision);
             algorithm = new TradingAlgorithm.TradingAlgorithm(
-                (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds, 
+                Convert.ToInt32(serverTime.ServerTime / 1000), 
                 decisions);
         }
 
