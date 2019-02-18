@@ -26,6 +26,10 @@ namespace TradingAlgorithm
 
         #region Indicators
 
+        // Direction
+        public double direction;
+        public int inversion;
+
         // MA
         public double? MA1;
         public double? MA2;

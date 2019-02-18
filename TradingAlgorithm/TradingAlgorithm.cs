@@ -14,6 +14,8 @@ namespace TradingAlgorithm
         private List<int> longPosCount = new List<int>();
         private List<int> shortPosCount = new List<int>();
 
+        private int readyForPosition = 0; // 1 or -1 when position signal given, then waits for inversion.
+
         public TradingAlgorithm(int startTimeStamp, List<PositionOpener.PositionDecision> decisions)
         {
             // Clear exports directory
@@ -36,10 +38,19 @@ namespace TradingAlgorithm
             int choice = opener.Tick(Point);
             if (choice != 0)
             {
-                // If choice bigger than 0 this is true, else false.
-                bool longOrShort = (choice > 0);
+                readyForPosition = choice;
+            }
+
+            // Inverts the correct way
+            //if (Point.inversion != 0 && Point.inversion == readyForPosition)
+            if (readyForPosition != 0)
+            {
+                    // If choice bigger than 0 this is true, else false.
+                    bool longOrShort = (choice > 0);
                 returns.Add(new PositionSignal
                     (longOrShort, Math.Abs(choice), Point, opener.NextPositionID));
+
+                readyForPosition = 0;
             }
             
             // Now tick all positions

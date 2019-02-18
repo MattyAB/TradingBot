@@ -83,6 +83,18 @@ namespace TradingAlgorithm
             RSIPipe.Push(Point.close);
             Point.RSI = calculateRSI(Point);
 
+            if (Point.TickNumber > 0)
+            {
+                Point.direction = Point.close - points[points.Count - 1].close;
+                if (Point.TickNumber > 1)
+                {
+                    if (Point.direction < 0 && points[points.Count - 1].direction > 0)
+                        Point.inversion = -1;
+                    if (Point.direction > 0 && points[points.Count - 1].direction < 0)
+                        Point.inversion = 1;
+                }
+            }
+
             if (Const.plotStart < Point.openTime && Const.plotFinish > Point.openTime)
                 PushPlotValues(Point, portfolioValue);
 
