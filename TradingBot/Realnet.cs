@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Timers;
 using Binance.API.Csharp.Client;
+using Binance.API.Csharp.Client.Models.Enums;
+using Binance.API.Csharp.Client.Models.Market;
 using TradingAlgorithm;
 
 namespace TradingBot
@@ -28,11 +31,41 @@ namespace TradingBot
             algorithm = new TradingAlgorithm.TradingAlgorithm(
                 Convert.ToInt32(serverTime.ServerTime / 1000), 
                 decisions);
+
+            // First ticks
+
+            var candlestick = binanceClient.GetCandleSticks("btcusdt", TimeInterval.Minutes_1).Result;
+
+            foreach (Candlestick c in candlestick)
+            {
+                DataPoint point = FromCandlestick(c);
+
+                algorithm.Tick(point, 0);
+            }
+
+            algorithm.TruncatePositions();
         }
 
         public void Tick(object source, ElapsedEventArgs e)
         {
             Console.WriteLine("Tick!");
+        }
+
+        private DataPoint FromCandlestick(Candlestick c)
+        {
+            DataPoint point = new DataPoint();
+            
+            point.open = (double)c.Open;
+            point.close = (double)c.Close;
+            point.high = (double)c.High;
+            point.low = (double)c.Low;
+            point.volume = (double)c.Volume;
+            point.openTime = new DateTime(1970, 1, 1);
+            point.openTime.AddMilliseconds(c.OpenTime);
+            point.closeTime = new DateTime(1970, 1, 1);
+            point.openTime.AddMilliseconds(c.CloseTime); ;
+
+            return point;
         }
     }
 }

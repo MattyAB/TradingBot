@@ -108,6 +108,11 @@ namespace TradingAlgorithm
             data.shortPos = shortPosCount.Select<int, double>(i => i).ToList(); // Convert List<int> to List<double>
             return data;
         }
+
+        public void TruncatePositions()
+        {
+            positions.Clear();
+        }
     }
 
     public struct AlgorithmData
