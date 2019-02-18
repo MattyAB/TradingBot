@@ -176,7 +176,7 @@ namespace TradingBot
                  PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close)) * 100, 2);
         }
 
-        public int RSIDecision(DataPoint Point)
+        public static int RSIDecision(DataPoint Point)
         {
             if (Point.RSI < Const.RSILow)
                 return 1;
