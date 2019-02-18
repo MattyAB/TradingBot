@@ -68,11 +68,23 @@ namespace TradingAlgorithm
             Point.MA2 = MA2.Push(Point.close);
             Point.MA3 = MA3.Push(Point.close);
 
+            if ((Point.MA1 < Point.MA3 && 
+                points[points.Count - 1].MA1 > points[points.Count - 1].MA3) |
+                (Point.MA1 > Point.MA3 &&
+                 points[points.Count - 1].MA1 < points[points.Count - 1].MA3))
+            {
+                Point.MACross = Point.MA1 - Point.MA3;
+            }
+            else
+            {
+                Point.MACross = 0;
+            }
+
             RSIPipe.Push(Point.close);
             Point.RSI = calculateRSI(Point);
 
             if (Const.plotStart < Point.openTime && Const.plotFinish > Point.openTime)
-                Task.Run(() => PushPlotValues(Point, portfolioValue));
+                PushPlotValues(Point, portfolioValue);
 
             points.Add(Point);
 
@@ -83,19 +95,20 @@ namespace TradingAlgorithm
         {
             Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
             plotValues.Add("ma_graph",
-                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                new[]{ Point.TickNumber,
                     Point.close,
                     Math.Round(DoubleConvert(Point.MA1), 3),
                     Math.Round(DoubleConvert(Point.MA2), 3),
                     Math.Round(DoubleConvert(Point.MA3), 3) });
             plotValues.Add("port_graph",
-                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                new[]{ Point.TickNumber,
                     portfolioValue });
             plotValues.Add("rsi_graph",
-                new[]{ (Int32)(Point.openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                new[]{ Point.TickNumber,
                     Point.RSI });
 
-            await plot.PushValues(plotValues);
+            if (Const.log)
+                await plot.PushValues(plotValues);
         }
 
         public int calculateRSI(DataPoint Point)
@@ -132,7 +145,7 @@ namespace TradingAlgorithm
         {
             try
             {
-                Task.Run(() => plot.BuildSite());
+                plot.BuildSite();
             }
             catch (ArgumentOutOfRangeException e)
             {

@@ -8,12 +8,15 @@ namespace TradingAlgorithm
     {
         public const string backtestPath = @"E:\Documents\Code\C#\TradingBot\BacktestData\dataBTCUSDT.json"; // Path for backtest data
         public const string exportPath = @"../../../../Exports/"; // Export path
+        public const string trainingValuesPath = @"E:\Documents\Code\C#\TradingBot\Testing\values.csv";
         public static int Points = 700000; // How many data points to test on
+        public static bool log = true;
 
-        public const double TradeValue = 100; // Trades made are $100
-        public const double Fee = 0.001; // Binance maker and taker fees are identical
-        public const int PortfolioStartValue = 10000; // Start value portfolio is this much USD plus this much in BTC
-
+        public static double TradeValue = 0.04542063; // Trades made are $100
+        public static double Fee = 0.001; // Binance maker and taker fees are identical
+        public const int PortfolioStartValue = 2000; // Start value portfolio is this much USD plus this much in BTC
+        public static double PortfolioStartRatio = 0.952895; // Ratio of BTC to USD in the start portfolio.
+        
         public static int plotStartPoint = 1000;
         public static int plotFinishPoint = 10000;
         public static DateTime plotStart;
@@ -21,9 +24,17 @@ namespace TradingAlgorithm
 
         #region Position
 
-        public const int RequiredPositionRestMins = 30; // Minimum minutes between position opening
-        public const double TPPercentage = 0.05; // Fractional start value for take profit
-        public const double SLPercentage = 0.02; // Fractional start value for stop loss
+        public static int RequiredPositionRestMins = 30; // Minimum minutes between position opening
+        public static double TPPercentage = 0.1512368; // Fractional start value for take profit
+        public static double SLPercentage = 0.0386197; // Fractional start value for stop loss
+        public static bool ClampTPSL = true; // False if we want to keep the TPSL values constant.
+        public static double TPClampValue = 0.0002029419; // Percentage to clamp per tick.
+        public static double SLClampValue = 0.0001916039; // Percentage to clamp per tick.
+        public static double LongBreakevenMultiplier = 0.29759; // Starting value - no idea how good this will be
+        public static double ShortBreakevenMultiplier = 0.3307884; // Starting value - no idea how good this will be
+
+        public static double longMACrossThreshold = -1;
+        public static double shortMACrossThreshold = 1;
 
         #endregion
 
@@ -33,7 +44,9 @@ namespace TradingAlgorithm
         public static readonly int MA2PipeLength = 100; // Moving Average 2 pipe length
         public static readonly int MA3PipeLength = 500; // Moving Average 3 pipe length
 
-        public static readonly int RSIPeriod = 14;
+        public static int RSIPeriod = 14;
+        public static int RSILow = 4;
+        public static int RSIHigh = 86;
 
         #endregion
     }

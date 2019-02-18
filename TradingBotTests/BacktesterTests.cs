@@ -16,10 +16,12 @@ namespace TradingBotTests
             // This is not bitcoin data oopsieeee but it still works for our purposes
             try
             {
-                Backtester bt = new TradingBot.Backtester(@"../../../../BacktestData/1mTestData.json");
+                DataLoader dl = new DataLoader(@"../../../../BacktestData/1mTestData.json");
+
+                Backtester bt = new TradingBot.Backtester(dl);
                 
-                Assert.Equal(27.0, Math.Round(bt.CurrentPortfolio.BTCBalance));
-                Assert.Equal(100000, bt.CurrentPortfolio.USDTBalance);
+                Assert.Equal(0.3, Math.Round(bt.CurrentPortfolio.BTCBalance, 1));
+                Assert.Equal(1000, bt.CurrentPortfolio.USDTBalance);
 
                 bt.Backtest(1000, 1200);
             }

@@ -24,14 +24,15 @@ namespace TradingBot
         TradingAlgorithm.TradingAlgorithm algorithm;
         private DataLoader dl;
 
-        public Backtester(string path)
+        public Backtester(DataLoader dl)
         {
-            // Load Data
-            dl = new DataLoader(path);
+            this.dl = dl;
+
+            double BTCStartValueUSD = (Const.PortfolioStartRatio * Const.PortfolioStartValue) / (Const.PortfolioStartRatio + 1);
+            double USDStartValue = Const.PortfolioStartValue / (Const.PortfolioStartRatio + 1);
 
             // Create first portfolio, with $1000 of BTC and $1000 of $
-            CurrentPortfolio = new Wallet(Const.PortfolioStartValue / dl.GetFirst().close, Const.PortfolioStartValue);
-            Console.WriteLine(CurrentPortfolio.GetTotalBalance(dl.GetFirst().close));
+            CurrentPortfolio = new Wallet(BTCStartValueUSD / dl.GetFirst().close, USDStartValue);
             CurrentPortfolio = currentPortfolio; // Set this to make a second instance in PortfolioHistory
                                                  // - bit of a clunky solution but necessary because on line 
                                                  //    Wallet interimWallet = CurrentPortfolio;
@@ -45,10 +46,14 @@ namespace TradingBot
             algorithm = new TradingAlgorithm.TradingAlgorithm(startTime, decisions);
         }
 
-        public void Backtest(int Pstart, int Pend)
+        public double Backtest(int Pstart, int Pend)
         {
             Const.plotStartPoint = Pstart;
             Const.plotFinishPoint = Pend;
+
+            int logStep = Const.Points / 100;
+
+            int TickNo = 0;
 
             int longWin = 0;
             int longLoss = 0;
@@ -59,9 +64,12 @@ namespace TradingBot
             {
                 DataPoint Point;
                 // Get the next data point
-                Point = dl.GetNextPoint();
-                if (Point == null)
+                if (TickNo > Const.Points)
                     break;
+                Point = dl.getPointAt(TickNo);
+
+                if (TickNo % logStep == 0 && Const.log)
+                    Console.WriteLine((TickNo / logStep) + "%");
 
                 Wallet interimWallet = (Wallet)CurrentPortfolio.Clone();
 
@@ -82,17 +90,19 @@ namespace TradingBot
                         else // short Sell
                             buyOrSell = true;
 
+                    double TradeValue = interimWallet.GetTotalBalance(Point.close) * Const.TradeValue;
+
                     // Check we have enough capital to carry out the change
                     if (buyOrSell)
                     {
                         // Buy
-                        if (interimWallet.USDTBalance < Const.TradeValue)
+                        if (interimWallet.USDTBalance < TradeValue)
                             break;
                     }
                     else
                     {
                         // Sell
-                        if (interimWallet.BTCBalance < Const.TradeValue / Point.close)
+                        if (interimWallet.BTCBalance < TradeValue / Point.close)
                             break;
                     }
 
@@ -101,17 +111,17 @@ namespace TradingBot
                     {
                         // BUY signal
 
-                        double TradeBTC = Const.TradeValue / Point.close;
-                        interimWallet.USDTBalance -= Const.TradeValue;
-                        interimWallet.BTCBalance += TradeBTC * (1 - 0.001);
+                        double TradeBTC = TradeValue / Point.close;
+                        interimWallet.USDTBalance -= TradeValue;
+                        interimWallet.BTCBalance += TradeBTC * (1 - Const.Fee);
                     }
                     else
                     {
                         // SELL signal
 
-                        double TradeBTC = Const.TradeValue / Point.close;
+                        double TradeBTC = TradeValue / Point.close;
                         interimWallet.BTCBalance -= TradeBTC;
-                        interimWallet.USDTBalance += Const.TradeValue * (1 - 0.001);
+                        interimWallet.USDTBalance += TradeValue * (1 - Const.Fee);
                     }
 
                     // And update the stats.
@@ -143,22 +153,34 @@ namespace TradingBot
 
                 // Finish up by committing the current wallet to our history.
                 CurrentPortfolio = interimWallet;
+
+                TickNo++;
             }
 
-            AlgorithmData finishingData = algorithm.FinishUp();
-            FinalPlots(finishingData);
+            if (Const.log)
+            {
+                AlgorithmData finishingData = algorithm.FinishUp();
+                FinalPlots(finishingData);
+            }
 
             TradingAlgorithm.Log.FinishUp(PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close),
                 PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.getPointAt(Const.Points).close),
-                longWin, longLoss, shortWin, shortLoss);
+                longWin, longLoss, shortWin, shortLoss, 
+                PortfolioHistory.Count / (60 * 24));
+
+            // Return percentage increase
+            return Math.Round(
+                ((PortfolioHistory[PortfolioHistory.Count - 1].GetTotalBalance(dl.GetFirst().close) -
+                  PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close)) /
+                 PortfolioHistory[0].GetTotalBalance(dl.GetFirst().close)) * 100, 2);
         }
 
         public int RSIDecision(DataPoint Point)
         {
-            if (Point.RSI < 10)
+            if (Point.RSI < Const.RSILow)
                 return 1;
-            if (Point.RSI > 90)
+            if (Point.RSI > Const.RSIHigh)
                 return -1;
             return 0;
         }
@@ -179,25 +201,26 @@ namespace TradingBot
                 Dictionary<string, double[]> plotValues = new Dictionary<string, double[]>();
 
                 plotValues.Add("price_graph",
-                    new[]{ (Int32)(data.points[i].openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    new[]{ data.points[i].TickNumber,
                         data.points[i].close
                     });
 
                 plotValues.Add("pos_graph",
-                    new[]{ (Int32)(data.points[i].openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    new[]{ data.points[i].TickNumber,
                         (double)data.longPos[i],
                         (double)data.shortPos[i],
                         (double)(data.shortPos[i] + data.longPos[i])
                     });
 
                 plotValues.Add("value_graph",
-                    new[]{ (Int32)(data.points[i].openTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds,
+                    new[]{ data.points[i].TickNumber,
                         portfolios[i][0], // BTC
                         portfolios[i][1], // USD
                         portfolios[i][2] // Total
                     });
 
-                finalPlot.PushValues(plotValues);
+                if(Const.log)
+                    finalPlot.PushValues(plotValues);
             }
 
             finalPlot.BuildSite(true);
@@ -256,6 +279,7 @@ namespace TradingBot
                 DataPoint outPoint = new DataPoint();
                 outPoint.close = a / n;
                 outPoint.openTime = data.points[i].openTime;
+                outPoint.TickNumber = data.points[i].TickNumber;
                 output.points.Add(outPoint);
 
                 output.longPos.Add(b / n);

@@ -36,10 +36,15 @@ namespace TradingBot
             List<string[]> DataRaw = JsonConvert.DeserializeObject<List<string[]>>(data);
 
             List<DataPoint> output = new List<DataPoint>();
-            
+
+            int TickNo = 0;
+
             foreach(string[] Data in DataRaw)
             {
                 DataPoint Point = new DataPoint();
+
+                Point.TickNumber = TickNo;
+                TickNo++;
 
                 DateTime openTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                 Point.openTime = openTime.AddMilliseconds(Convert.ToInt64(Data[0]));
@@ -61,6 +66,11 @@ namespace TradingBot
             return output;
         }
 
+        public void ResetDL()
+        {
+            currentPoint = 0;
+        }
+
         string LoadData(string path)
         {
             return System.IO.File.ReadAllText(path);
@@ -69,7 +79,7 @@ namespace TradingBot
         public DataPoint GetNextPoint()
         {
             currentPoint++;
-            if(currentPoint % 10000 == 0)
+            if(currentPoint % 10000 == 0 & Const.log)
                 Console.WriteLine(currentPoint);
             if (currentPoint < Const.Points)
                 return dataPoints[currentPoint - 1];
