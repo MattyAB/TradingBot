@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using TradingAlgorithm;
 
 namespace TradingBot
@@ -12,13 +12,26 @@ namespace TradingBot
     {
         static void Main(string[] args)
         {
-            Trainer.GradientDescent(100, 0.01);
+            //Trainer.GradientDescent(100, 0.01);
 
             Const.log = true;
 
-            Backtest();
+            RealNet();
 
             Console.ReadLine();
+        }
+        
+        static void RealNet()
+        {
+            // Maybe in the future save the state and then reload it in?
+
+            Realnet net = new Realnet();
+
+            System.Timers.Timer timer = new System.Timers.Timer(60000);
+            timer.Elapsed += new ElapsedEventHandler(net.Tick);
+
+            timer.Interval = 60000;
+            timer.Enabled = true;
         }
 
         static void Backtest()
