@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,7 +14,7 @@ namespace TradingAlgorithm
         public static int Points = 700000; // How many data points to test on
         public static bool log = true;
 
-        public static double TradeValue = 0.04542063; // Trades made are $100
+        public static double TradeValue = 0.4; // Trades made are $100
         public static double Fee = 0.001; // Binance maker and taker fees are identical
         public const int PortfolioStartValue = 2000; // Start value portfolio is this much USD plus this much in BTC
         public static double PortfolioStartRatio = 0.952895; // Ratio of BTC to USD in the start portfolio.

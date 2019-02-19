@@ -100,7 +100,32 @@ namespace TradingBot
                         break;
                 }
 
-                // MAKE A CHANGE!!!
+                // Carry out the change in our portfolio
+                if (buyOrSell)
+                {
+                    // Buy
+                    decimal TradeBTC = Math.Round((decimal)(TradeValue / point.close), 4);
+                    var buyMarketOrder = binanceClient.PostNewOrder("btcusdt", TradeBTC, 0m, OrderSide.BUY, OrderType.MARKET).Result;
+                    Log.logText(point.TickNumber, "Bought " + TradeBTC + "BTC on the market!!!");
+                }
+                else
+                {
+                    // Sell
+                    decimal TradeBTC = Math.Round((decimal)(TradeValue / point.close), 4);
+                    var buyMarketOrder = binanceClient.PostNewOrder("btcusdt", TradeBTC, 0m, OrderSide.SELL, OrderType.MARKET).Result;
+                    Log.logText(point.TickNumber, "Sold " + TradeBTC + "BTC on the market!!!");
+                }
+
+                // And update the stats.
+                if (signal.add)
+                {
+                    // If it is a position creation signal
+                    algorithm.AddPosition(signal.pos);
+                }
+                else
+                {
+                    algorithm.RemovePosition(signal.id);
+                }
             }
 
             TickNumber++;
@@ -113,7 +138,7 @@ namespace TradingBot
 
             foreach (var i in info.Balances)
             {
-                if (i.Asset == "USD")
+                if (i.Asset == "USDT")
                     RawUSDT = (double)i.Free;
                 if (i.Asset == "BTC")
                     RawBTC = (double)i.Free;
