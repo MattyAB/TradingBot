@@ -62,7 +62,26 @@ namespace TradingBot
 
             Log.logText(TickNumber, "Got tick of closing price " + point.close);
 
+            AccountInfo accountInfo = binanceClient.GetAccountInfo().Result;
+
+            List<PositionSignal> signals = algorithm.Tick(point, GetValue(accountInfo, point));
+
             TickNumber++;
+        }
+
+        public double GetValue(AccountInfo info, DataPoint point)
+        {
+            double value = 0;
+
+            foreach (var i in info.Balances)
+            {
+                if (i.Asset == "USD")
+                    value += (double)i.Free;
+                if (i.Asset == "BTC")
+                    value += (double)i.Free * point.close;
+            }
+
+            return value;
         }
 
         private DataPoint FromCandlestick(Candlestick c, int tickNo)
