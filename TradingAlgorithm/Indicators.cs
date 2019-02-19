@@ -94,9 +94,8 @@ namespace TradingAlgorithm
                         Point.inversion = 1;
                 }
             }
-
-            if (Const.plotStart < Point.openTime && Const.plotFinish > Point.openTime)
-                PushPlotValues(Point, portfolioValue);
+            
+            PushPlotValues(Point, portfolioValue);
 
             points.Add(Point);
 
@@ -119,8 +118,10 @@ namespace TradingAlgorithm
                 new[]{ Point.TickNumber,
                     Point.RSI });
 
-            if (Const.log)
-                await plot.PushValues(plotValues);
+            plot.PushValues(plotValues);
+
+            if (plot.valuesCount > 500)
+                plot.popValue();
         }
 
         public int calculateRSI(DataPoint Point)

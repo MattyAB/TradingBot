@@ -13,6 +13,21 @@ namespace TradingAlgorithm
         public string fileName;
         private string textLog;
 
+        public int valuesCount
+        {
+            get
+            {
+                int total = 0;
+
+                foreach (Plot plot in plots)
+                {
+                    total += plot.values.Count;
+                }
+
+                return total / plots.Count;
+            }
+        }
+
         public Plotter(List<PlotterValues> setup, string fileName)
         {
             this.fileName = fileName;
@@ -120,6 +135,16 @@ namespace TradingAlgorithm
         public void addText(int TickNumber, string text)
         {
             textLog += TickNumber + ": " + text + "<br/>";
+        }
+
+        public void popValue()
+        {
+            foreach (Plot plot in plots)
+            {
+                plot.values.RemoveAt(0);
+            }
+
+            BuildSite();
         }
     }
 
