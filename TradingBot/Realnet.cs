@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -64,24 +63,61 @@ namespace TradingBot
 
             AccountInfo accountInfo = binanceClient.GetAccountInfo().Result;
 
-            List<PositionSignal> signals = algorithm.Tick(point, GetValue(accountInfo, point));
+            Wallet portfolio = GetWallet(accountInfo);
+
+            List<PositionSignal> signals = algorithm.Tick(point, portfolio.GetTotalBalance(point.close));
+
+            foreach (PositionSignal signal in signals)
+            {
+                bool buyOrSell; // True if buy, False if sell
+
+                if (signal.longOrShort)
+                    if (signal.add) // long Buy
+                        buyOrSell = true;
+                    else // long Sell
+                        buyOrSell = false;
+                else
+                if (signal.add) // short Buy
+                    buyOrSell = false;
+                else // short Sell
+                    buyOrSell = true;
+
+                double TradeValue = portfolio.GetTotalBalance(point.close) * Const.TradeValue;
+
+                // Check we have enough capital to carry out the change
+                if (buyOrSell)
+                {
+                    // Buy
+                    if (portfolio.USDTBalance < TradeValue)
+                        break;
+                }
+                else
+                {
+                    // Sell
+                    if (portfolio.BTCBalance < TradeValue / point.close)
+                        break;
+                }
+
+                // MAKE A CHANGE!!!
+            }
 
             TickNumber++;
         }
 
-        public double GetValue(AccountInfo info, DataPoint point)
+        public Wallet GetWallet(AccountInfo info)
         {
-            double value = 0;
+            double RawBTC = 0;
+            double RawUSDT = 0;
 
             foreach (var i in info.Balances)
             {
                 if (i.Asset == "USD")
-                    value += (double)i.Free;
+                    RawUSDT = (double)i.Free;
                 if (i.Asset == "BTC")
-                    value += (double)i.Free * point.close;
+                    RawBTC = (double)i.Free;
             }
 
-            return value;
+            return new Wallet(RawBTC, RawUSDT);
         }
 
         private DataPoint FromCandlestick(Candlestick c, int tickNo)
