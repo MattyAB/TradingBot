@@ -64,6 +64,7 @@ namespace TradingAlgorithm
                         positions[i].FinishPlot();
                     positions.RemoveAt(i);
                 }
+                positions[i].FinishPlot();
             }
 
             int longs = 0;
