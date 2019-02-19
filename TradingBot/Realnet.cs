@@ -49,6 +49,8 @@ namespace TradingBot
             }
 
             algorithm.TruncatePositions();
+
+            algorithm.opener.mostRecentPosition = DateTime.MinValue;
         }
 
         public void Tick(object source, ElapsedEventArgs e)

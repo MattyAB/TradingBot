@@ -137,12 +137,27 @@ namespace TradingAlgorithm
             textLog += TickNumber + ": " + text + "<br/>";
         }
 
+        public void FixValues()
+        {
+            for (int i = 0; i < plots[0].values.Count; i++)
+            {
+                if (plots[0].values[i][2] == 0)
+                    plots[0].values[i][2] = plots[0].values[plots[0].values.Count - 1][2];
+                if (plots[0].values[i][3] == 0)
+                    plots[0].values[i][3] = plots[0].values[plots[0].values.Count - 1][3];
+                if (plots[0].values[i][4] == 0)
+                    plots[0].values[i][4] = plots[0].values[plots[0].values.Count - 1][4];
+            }
+        }
+
         public void popValue()
         {
             foreach (Plot plot in plots)
             {
                 plot.values.RemoveAt(0);
             }
+
+            FixValues();
 
             BuildSite();
         }

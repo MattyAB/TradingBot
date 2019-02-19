@@ -9,7 +9,7 @@ namespace TradingAlgorithm
     public class TradingAlgorithm
     {
         private Indicators indicators;
-        private PositionOpener opener;
+        public PositionOpener opener;
         private List<Position> positions;
         private List<int> longPosCount = new List<int>();
         private List<int> shortPosCount = new List<int>();
