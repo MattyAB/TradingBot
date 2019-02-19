@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
@@ -14,7 +15,15 @@ namespace TradingAlgorithm
         public static Plotter logText(int TickNo, string text, Plotter plot)
         {
             plot.addText(TickNo, text);
+            Console.WriteLine(TickNo + ": Position " + plot.fileName + " : " + text);
+            File.AppendAllText(Const.logPath, TickNo + ": Position " + plot.fileName + " : " + text + Environment.NewLine);
             return plot;
+        }
+
+        public static void logText(int TickNo, string text)
+        {
+            Console.WriteLine(TickNo + " : " + text);
+            File.AppendAllText(Const.logPath, TickNo + " : " + text + Environment.NewLine);
         }
 
         public static Plotter WriteClosePosition(double startPrice, DataPoint endPoint, bool longOrShort, Plotter plot, int TickNo)
