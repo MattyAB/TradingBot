@@ -127,8 +127,8 @@ def get_historical_klines(symbol, interval, start_str, end_str=None):
 
 
 symbol = "BTCUSDT"
-start = "1 Jan, 2017"
-end = "1 Jan, 2019"
+start = "1 Jan, 2019"
+end = "1 Jun, 2019"
 interval = Client.KLINE_INTERVAL_1MINUTE
 
 klines = get_historical_klines(symbol, interval, start, end)

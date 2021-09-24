@@ -16,7 +16,7 @@ namespace TradingAlgorithm
         {
             plot.addText(TickNo, text);
             Console.WriteLine(TickNo + ": Position " + plot.fileName + " : " + text);
-            File.AppendAllText(Const.logPath, TickNo + ": Position " + plot.fileName + " : " + text + Environment.NewLine);
+            //File.AppendAllText(Const.logPath, TickNo + ": Position " + plot.fileName + " : " + text + Environment.NewLine);
             return plot;
         }
 

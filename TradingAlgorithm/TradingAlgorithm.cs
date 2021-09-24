@@ -63,6 +63,7 @@ namespace TradingAlgorithm
                     if(Const.log)
                         positions[i].FinishPlot();
                     positions.RemoveAt(i);
+                    i = i - 1;
                 }
                 positions[i].FinishPlot();
             }

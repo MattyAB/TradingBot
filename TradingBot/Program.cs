@@ -16,7 +16,9 @@ namespace TradingBot
 
             Const.log = true;
 
-            RealNet();
+            //RealNet();
+
+            Backtest();
 
             Console.ReadLine();
         }

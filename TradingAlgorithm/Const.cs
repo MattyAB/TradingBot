@@ -6,11 +6,11 @@ namespace TradingAlgorithm
 {
     public class Const
     {
-        public const string apiKey = @"E:\Documents\Code\C#\TradingBot\TradingBot\API.txt";
-        public const string logPath = @"E:\Documents\Code\C#\TradingBot\TradingBot\log.txt";
-        public const string backtestPath = @"E:\Documents\Code\C#\TradingBot\BacktestData\dataBTCUSDT.json"; // Path for backtest data
+        public const string apiKey = @"..\..\..\..\API.txt";
+        public const string logPath = @"..\..\..\..\TradingBot\TradingBot\log.txt";
+        public const string backtestPath = @"..\..\..\..\BacktestData\2019x6month.json"; // Path for backtest data
         public const string exportPath = @"../../../../Exports/"; // Export path
-        public const string trainingValuesPath = @"E:\Documents\Code\C#\TradingBot\Testing\values.csv";
+        public const string trainingValuesPath = @"..\..\..\..\TradingBot\Testing\values.csv";
         public static int Points = 700000; // How many data points to test on
         public static bool log = true;
 

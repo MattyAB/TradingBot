@@ -1,5 +1,11 @@
 # TradingBot
 
+## Features
+* Trading algorithm running on backtesting data
+* Plots each position made into a html file
+* Plots overall indicators to Exports/IndicatorExport.html
+* Trains algorithm with gradient descent to optimise 
+
 ## Todo
 - More indicators
 - Improve decision algorithm
