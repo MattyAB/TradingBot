@@ -263,9 +263,6 @@ __pycache__/
 
 Binance_ETHBTC_1m_1483228800000-1546300800000.json
 data.json
-BacktestData/dataETHBTC.json
-BacktestData/dataBTCUSDT.json
-Exports/
 loc.exe
 
 TradingBot/API\.txt

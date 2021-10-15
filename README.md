@@ -17,3 +17,8 @@
 - Text logging to console and log file
 - Implement trading fees
 - Positions take money out of portfolio and hold them in escrow (So that positions can always be finished - at the moment sometimes we can't finish a position when we want to.)
+
+## Screenshots
+
+![Position View](/PositionPreview.PNG)
+![Indicator View](/IndicatorsPreview.PNG)
